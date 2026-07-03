@@ -86,6 +86,7 @@ h1,h2,h3{line-height:1.25}
 .det-btn:hover{color:var(--gm)}
 .var-price{font-size:12px;color:var(--pu);font-weight:700}
 .free-badge{font-size:11px;font-weight:700;background:var(--gl);color:var(--g);border-radius:20px;padding:2px 10px;border:1px solid var(--gm)}
+.already-incl{display:flex;align-items:center;gap:6px;margin-top:10px;padding:9px 14px;background:#e8f5e9;border-radius:8px;border:1.5px solid #a5d6a7;font-size:13px;font-weight:700;color:#2e7d32}
 
 /* ── TIER TABLE ── */
 .tier-wrap{margin:12px 0 0;overflow-x:auto}
@@ -282,6 +283,7 @@ h1,h2,h3{line-height:1.25}
 .acc-title{display:flex;align-items:center;gap:8px;flex:1;font-size:14px;font-weight:700}
 .acc-chevron{color:var(--gy);transition:transform .22s;font-size:15px;line-height:1}
 .acc-section.open .acc-chevron{transform:rotate(180deg)}
+.acc-group-hdr{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#546E7A;margin:18px 0 8px;padding:0 0 5px;border-bottom:2px solid #ECEFF1;}.acc-group-hdr:first-child{margin-top:0;}
 .acc-body{max-height:0;overflow:hidden;transition:max-height .3s ease}
 .acc-section.open .acc-body{max-height:4000px}
 .acc-body-inner{padding:4px 14px 14px}
@@ -784,7 +786,7 @@ function doLogin(){
     <div id="hw-wizard-section" style="margin-bottom:16px">
       <div class="step-card" style="border-color:var(--or);background:#fff8f5">
         <div class="step-hdr" onclick="toggleHwWizard()">
-          <div class="step-num" style="background:var(--or)"><i class="ti ti-tool" style="font-size:14px;color:#fff"></i></div>
+          <div class="step-num" style="background:var(--or)">4</div>
           <div class="step-hdr-body">
             <div class="step-hdr-title" style="color:var(--or)" id="hwwiz-title-lbl">DSS &amp; Sensoristica</div>
             <div class="step-hdr-summary" style="display:block" id="hwwiz-sub-lbl">Seleziona le categorie rilevanti per il cliente</div>
@@ -833,7 +835,7 @@ function doLogin(){
     <!-- Software modules -->
     <div class="step-card" style="padding:0;overflow:hidden">
       <div id="mods-hdr" onclick="toggleModsPanel()" style="padding:12px 16px;background:var(--gl);border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:8px;cursor:pointer;user-select:none" onmouseover="this.style.background='#d4edda'" onmouseout="this.style.background='var(--gl)'">
-        <div class="step-num" style="background:var(--g)"><i class="ti ti-package" style="font-size:14px;color:#fff"></i></div>
+        <div class="step-num" style="background:var(--g)">5</div>
         <div class="step-hdr-title" id="mods-title" style="flex:1">Moduli Software</div>
         <i class="ti ti-chevron-down" id="mods-chevron" style="font-size:16px;color:var(--g);transition:transform .2s"></i>
       </div>
@@ -842,7 +844,22 @@ function doLogin(){
       </div>
     </div>
 
-    <div class="fin-notice" style="margin-top:16px">
+    <!-- Accessories & Services — Step 6 -->
+    <div class="step-card" style="padding:0;overflow:hidden;margin-top:8px" id="acc-step-card">
+      <div id="acc-hdr" onclick="toggleAccPanel()" style="padding:12px 16px;background:#ECEFF1;border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:8px;cursor:pointer;user-select:none" onmouseover="this.style.background='#CFD8DC'" onmouseout="this.style.background='#ECEFF1'">
+        <div class="step-num" style="background:#546E7A">6</div>
+        <div class="step-hdr-title" id="acc-step-title" style="flex:1;color:#37474F">Accessori &amp; Servizi</div>
+        <i class="ti ti-chevron-down" id="acc-chevron" style="font-size:16px;color:#546E7A;transition:transform .2s"></i>
+      </div>
+      <div id="acc-body" style="padding:16px;display:none">
+        <div id="acc-products-body"></div>
+      </div>
+    </div>
+
+    <!-- Stima preventivo — always visible after Step 6 -->
+    <div class="estimator" id="estimator-block" style="margin-top:16px"></div>
+
+    <div class="fin-notice" style="margin-top:12px">
       <i class="ti ti-alert-triangle"></i>
       <div class="fin-notice-text" id="fin-notice-text">Contact the finance department for review prior of submitting offers to customers.</div>
     </div>
@@ -1320,24 +1337,28 @@ function doLogin(){
           <div data-t="ot_tr_launch_dur" class="tc-dur">2 hours · online</div>
           <div class="tc-price">€180</div>
           <div data-t="ot_tr_launch_val" class="tc-val">Valid 3 months</div>
+          <button class="est-btn" data-est-pk="training_launch" onclick="toggleProduct('training_launch')">+ Aggiungi a stima</button>
         </div>
         <div class="training-card">
           <div data-t="ot_tr_boost_name" class="tc-name">Boost</div>
           <div data-t="ot_tr_boost_dur" class="tc-dur">4 hours · online</div>
           <div class="tc-price">€300</div>
           <div data-t="ot_tr_boost_val" class="tc-val">Valid 6 months</div>
+          <button class="est-btn" data-est-pk="training_boost" onclick="toggleProduct('training_boost')">+ Aggiungi a stima</button>
         </div>
         <div class="training-card">
           <div data-t="ot_tr_summit_name" class="tc-name">Summit</div>
           <div data-t="ot_tr_summit_dur" class="tc-dur">10 hours · online</div>
           <div class="tc-price">€600</div>
           <div data-t="ot_tr_summit_val" class="tc-val">Valid 12 months</div>
+          <button class="est-btn" data-est-pk="training_summit" onclick="toggleProduct('training_summit')">+ Aggiungi a stima</button>
         </div>
         <div class="training-card">
           <div data-t="ot_tr_extra_name" class="tc-name">Extra Hour</div>
           <div data-t="ot_tr_extra_dur" class="tc-dur">1 hour add-on</div>
           <div class="tc-price">€100</div>
           <div data-t="ot_tr_extra_val" class="tc-val">Any time</div>
+          <button class="est-btn" data-est-pk="training_extra" onclick="toggleProduct('training_extra')">+ Aggiungi a stima</button>
         </div>
       </div>
       <div style="background:var(--gl);border-radius:var(--r2);padding:10px 14px;margin-top:8px;font-size:12px;color:var(--g)" data-th="ot_tr_best_practice">
@@ -1643,6 +1664,9 @@ function doLogin(){
             <a href="https://xfarmag.sharepoint.com/:x:/r/sites/xFarm/Documenti%20condivisi/20%20-%20Commercial%20and%20Sales/03%20-%20Pricing/Pricelist%202026_V0.xlsx?d=w960f91896ab243f48e825d8d0c54b382&csf=1&web=1&e=qOT58P" target="_blank" class="res-link" style="--rc:#217346;--rl:#E8F5E9;--rb:#A5D6A7">
               <i class="ti ti-table"></i><span>Excel — Master Pricelist</span><i class="ti ti-external-link" style="font-size:11px;opacity:.6"></i>
             </a>
+            <a href="https://xfarmag.sharepoint.com/:x:/r/sites/xFarm/Documenti%20condivisi/20%20-%20Commercial%20and%20Sales/03%20-%20Pricing/05%20Hectares%20price%20list.xlsx?d=wf6029811b85c4e97a2c199704f21d45d&csf=1&web=1&e=70g012" target="_blank" class="res-link" style="--rc:#2E7D32;--rl:#F1F8E9;--rb:#AED581">
+              <i class="ti ti-table"></i><span>Excel — Hectares Pricelist</span><i class="ti ti-external-link" style="font-size:11px;opacity:.6"></i>
+            </a>
             <a href="https://xfarmag.sharepoint.com/:b:/r/sites/xFarm/Documenti%20condivisi/20%20-%20Commercial%20and%20Sales/14%20-%20B2F/B2F%20Europe/C%20Pricing%20List%20for%20Distributors/2026/02%20Listino%20ITA.pdf?csf=1&web=1&e=zzf2QR" target="_blank" class="res-link" style="--rc:#C62828;--rl:#FFEBEE;--rb:#EF9A9A">
               <i class="ti ti-file-type-pdf"></i><span>PDF — Listino ITA</span><i class="ti ti-external-link" style="font-size:11px;opacity:.6"></i>
             </a>
@@ -1811,6 +1835,9 @@ it:{
   add_to_est:'+ Aggiungi a stima',
   remove_from_est:'✓ In stima',
   
+  est_svc_total:'Accessori & Servizi (una tantum)',
+  sec_acc:'Accessori & Servizi',
+  sec_svc:'Servizi',
   est_hw_total:'Hardware (una tantum)',
   est_sw_total:'Software / servizi (annuale)',
   est_grand_total:'TOTALE OFFERTA',
@@ -2025,7 +2052,8 @@ it:{
     m_cfg:['Configurazione della stazione?',''],
     m_cfg_base:'xSense V2 base (T, H, pioggia, vento)',
     m_cfg_leaf:'xSense V2 + Bagnatura fogliare (xLeaf)',
-    m_cfg_cam:'xSense V2 + Telecamera remota (xCam)',
+    m_cfg_cam:'xSense V2 + Fotocamera remota (xCam)',
+    m_cfg_leafcam:'xSense V2 + Bagnatura fogliare + Fotocamera (xLeaf + xCam)',
     m_cfg_entry:'Entry-level — xAir (solo T e H)',
     s_goal:['Cosa vuoi misurare nel suolo?',''],
     s_vol:'Solo umidità (ottimizzare irrigazione)',
@@ -2196,6 +2224,9 @@ en:{
   add_to_est:'+ Add to estimate',
   remove_from_est:'✓ In estimate',
   
+  est_svc_total:'Accessories & Services (one-time)',
+  sec_acc:'Accessories & Services',
+  sec_svc:'Services',
   est_hw_total:'Hardware (one-time)',
   est_sw_total:'Software / services (annual)',
   est_grand_total:'TOTAL OFFER',
@@ -2411,6 +2442,7 @@ en:{
     m_cfg_base:'xSense V2 base (T, H, rain, wind)',
     m_cfg_leaf:'xSense V2 + Leaf wetness sensor (xLeaf)',
     m_cfg_cam:'xSense V2 + Remote camera (xCam)',
+    m_cfg_leafcam:'xSense V2 + Leaf wetness + Camera (xLeaf + xCam)',
     m_cfg_entry:'Entry-level — xAir (T and H only)',
     s_goal:['What do you want to measure in the soil?',''],
     s_vol:'Moisture only (optimise irrigation)',
@@ -2581,6 +2613,9 @@ es:{
   add_to_est:'+ Añadir a estimación',
   remove_from_est:'✓ En estimación',
   
+  est_svc_total:'Accesorios & Servicios (única vez)',
+  sec_acc:'Accesorios & Servicios',
+  sec_svc:'Servicios',
   est_hw_total:'Hardware (única vez)',
   est_sw_total:'Software / servicios (anual)',
   est_grand_total:'TOTAL OFERTA',
@@ -2796,6 +2831,7 @@ es:{
     m_cfg_base:'xSense V2 base (T, H, chuva, vento)',
     m_cfg_leaf:'xSense V2 + Humidade foliar (xLeaf)',
     m_cfg_cam:'xSense V2 + Câmara remota (xCam)',
+    m_cfg_leafcam:'xSense V2 + Molhamento foliar + Câmara (xLeaf + xCam)',
     m_cfg_entry:'Entry-level — xAir (só T e H)',
     s_goal:['O que quer medir no solo?',''],
     s_vol:'Só humidade (otimizar rega)',
@@ -2844,6 +2880,7 @@ es:{
     m_cfg_base:'xSense V2 base (T, H, lluvia, viento)',
     m_cfg_leaf:'xSense V2 + Humectación foliar (xLeaf)',
     m_cfg_cam:'xSense V2 + Cámara remota (xCam)',
+    m_cfg_leafcam:'xSense V2 + Humectación foliar + Cámara (xLeaf + xCam)',
     m_cfg_entry:'Nivel básico — xAir (solo T y H)',
     s_goal:['¿Qué quieres medir en el suelo?',''],
     s_vol:'Solo humedad (optimizar riego)',
@@ -3014,6 +3051,9 @@ fr:{
   add_to_est:'+ Ajouter à l\'estimation',
   remove_from_est:'✓ Dans l\'estimation',
   
+  est_svc_total:'Accessoires & Services (unique)',
+  sec_acc:'Accessoires & Services',
+  sec_svc:'Services',
   est_hw_total:'Matériel (unique)',
   est_sw_total:'Logiciel / services (annuel)',
   est_grand_total:'TOTAL OFFRE',
@@ -3229,6 +3269,7 @@ fr:{
     m_cfg_base:"xSense V2 base (T, H, pluie, vent)",
     m_cfg_leaf:"xSense V2 + Humectation foliaire (xLeaf)",
     m_cfg_cam:"xSense V2 + Caméra à distance (xCam)",
+    m_cfg_leafcam:"xSense V2 + Humectation foliaire + Caméra (xLeaf + xCam)",
     m_cfg_entry:"Entrée de gamme — xAir (T et H uniquement)",
     s_goal:["Que voulez-vous mesurer dans le sol ?",""],
     s_vol:"Humidité seule (optimiser irrigation)",
@@ -3399,6 +3440,9 @@ pl:{
   add_to_est:'+ Dodaj do wyceny',
   remove_from_est:'✓ W wycenie',
   
+  est_svc_total:'Akcesoria & Usługi (jednorazowo)',
+  sec_acc:'Akcesoria & Usługi',
+  sec_svc:'Usługi',
   est_hw_total:'Sprzęt (jednorazowo)',
   est_sw_total:'Oprogramowanie / usługi (rocznie)',
   est_grand_total:'CAŁKOWITA OFERTA',
@@ -3614,6 +3658,7 @@ pl:{
     m_cfg_base:'xSense V2 podstawowy (T, H, deszcz, wiatr)',
     m_cfg_leaf:'xSense V2 + Czujnik zwilżenia liści (xLeaf)',
     m_cfg_cam:'xSense V2 + Zdalna kamera (xCam)',
+    m_cfg_leafcam:'xSense V2 + Zwilżenie liści + Kamera (xLeaf + xCam)',
     m_cfg_entry:'Entry-level — xAir (tylko T i H)',
     s_goal:['Co chcesz mierzyć w glebie?',''],
     s_vol:'Tylko wilgotność (optymalizacja nawadniania)',
@@ -3784,6 +3829,9 @@ pt:{
   add_to_est:'+ Adicionar à estimativa',
   remove_from_est:'✓ Na estimativa',
   
+  est_svc_total:'Acessórios & Serviços (única vez)',
+  sec_acc:'Acessórios & Serviços',
+  sec_svc:'Serviços',
   est_hw_total:'Hardware (única vez)',
   est_sw_total:'Software / serviços (anual)',
   est_grand_total:'TOTAL PROPOSTA',
@@ -4021,6 +4069,7 @@ hwq:{
     m_cfg_base:'xSense V2 base (T, H, chuva, vento)',
     m_cfg_leaf:'xSense V2 + Molhamento foliar (xLeaf)',
     m_cfg_cam:'xSense V2 + Câmara remota (xCam)',
+    m_cfg_leafcam:'xSense V2 + Molhamento foliar + Câmara (xLeaf + xCam)',
     m_cfg_entry:'Entry-level — xAir (só T e H)',
     s_goal:['O que quer medir no solo?',''],
     s_vol:'Só humidade (otimizar irrigação)',
@@ -4119,7 +4168,7 @@ const PRODUCTS = [
    price:{type:'flat', eur:100, rateKey:'controlli'},
    cost:20,
    maxDisc:0.25,
-   names:{it:'Controlli',en:'Controls',es:'Controles',fr:'Contrôles',pl:'Kontrole',pt:'Controlos'},
+   names:{it:'Controlli',en:'Checks',es:'Controles',fr:'Contrôles',pl:'Kontrole',pt:'Controlos'},
    descs:{
      it:'Conformità ai disciplinari, verifica etichette fitofarmaci, avvisi su regole e limiti NPK',
      en:'Compliance with regulations, pesticide label verification, NPK limit alerts',
@@ -4177,20 +4226,36 @@ const PRODUCTS = [
      pt:'Planeamento de rotações de culturas, sementeira e colheita em múltiplas épocas'
    }
   },
-  {pk:'multiazienda', dot:'#BF360C', section:'mgmt',
-   segments:['enterprise'],
+  {pk:'multiazienda_s', dot:'#BF360C', section:'mgmt',
+   segments:['small','medium','enterprise'],
    crops:[],
-   price:{type:'flat', eur:250, rateKey:'multiazienda'},
-   cost:null,
+   price:{type:'flat_only', eur:250},
+   cost:50,
    maxDisc:0.25,
-   names:{it:'Multiazienda',en:'Multi-farm',es:'Multi-granja',fr:'Multi-exploitation',pl:'Wiele Gospodarstw',pt:'Multi-quinta'},
+   names:{it:'Multiazienda (<35 aziende)',en:'Multi-farm (<35 farms)',es:'Multi-granja (<35 explot.)',fr:'Multi-exploitation (<35 exploit.)',pl:'Wiele Gospodarstw (<35)',pt:'Multi-quinta (<35 quintas)'},
    descs:{
-     it:'Gestione centralizzata di più aziende agricole o unità produttive su un unico account',
-     en:'Centralised management of multiple farms or production units under a single account',
-     es:'Gestión centralizada de múltiples explotaciones en una sola cuenta',
-     fr:'Gestion centralisée de plusieurs exploitations agricoles sur un seul compte',
-     pl:'Scentralizowane zarządzanie wieloma gospodarstwami lub jednostkami produkcyjnymi',
-     pt:'Gestão centralizada de múltiplas explorações agrícolas numa única conta'
+     it:'Gestione centralizzata fino a 35 aziende agricole o unità produttive su un unico account',
+     en:'Centralised management of up to 35 farms or production units under a single account',
+     es:'Gestión centralizada de hasta 35 explotaciones en una sola cuenta',
+     fr:'Gestion centralisée jusqu\'à 35 exploitations agricoles sur un seul compte',
+     pl:'Scentralizowane zarządzanie do 35 gospodarstwami lub jednostkami produkcyjnymi',
+     pt:'Gestão centralizada de até 35 explorações agrícolas numa única conta'
+   }
+  },
+  {pk:'multiazienda_l', dot:'#8B0000', section:'mgmt',
+   segments:['small','medium','enterprise'],
+   crops:[],
+   price:{type:'flat_only', eur:350},
+   cost:70,
+   maxDisc:0.25,
+   names:{it:'Multiazienda (≥35 aziende)',en:'Multi-farm (≥35 farms)',es:'Multi-granja (≥35 explot.)',fr:'Multi-exploitation (≥35 exploit.)',pl:'Wiele Gospodarstw (≥35)',pt:'Multi-quinta (≥35 quintas)'},
+   descs:{
+     it:'Gestione centralizzata di oltre 35 aziende agricole o unità produttive su un unico account. Soluzione enterprise per grandi gruppi e cooperative',
+     en:'Centralised management of 35+ farms or production units under a single account. Enterprise solution for large groups and cooperatives',
+     es:'Gestión centralizada de más de 35 explotaciones en una sola cuenta. Solución enterprise para grandes grupos y cooperativas',
+     fr:'Gestion centralisée de plus de 35 exploitations sur un seul compte. Solution enterprise pour grands groupes et coopératives',
+     pl:'Scentralizowane zarządzanie ponad 35 gospodarstwami. Rozwiązanie enterprise dla dużych grup i spółdzielni',
+     pt:'Gestão centralizada de mais de 35 explorações numa única conta. Solução enterprise para grandes grupos e cooperativas'
    }
   },
   {pk:'sostenibilita', dot:'#1B5E20', section:'mgmt',
@@ -4361,7 +4426,7 @@ const PRODUCTS = [
   {pk:'xsense_v2', dot:'#00838F', section:'hw',
    segments:['small','medium','enterprise'],
    crops:[],
-   price:{type:'hw', once:990, annual:150},
+   price:{type:'hw', once:990, annual:120},
    cost:125,
    maxDisc:0.4,
    names:{it:'xSense V2',en:'xSense V2',es:'xSense V2',fr:'xSense V2',pl:'xSense V2',pt:'xSense V2'},
@@ -4493,17 +4558,20 @@ const PRODUCTS = [
   {pk:'xidro_mini', dot:'#0288D1', section:'hw',
    segments:['small','medium','enterprise'],
    crops:['ol','vi','to','ap','ar','veg'],
-   price:{type:'hw', once:350, annual:'var'},
+   price:{type:'hw_once', once:350},
    cost:146,
-   maxDisc:0.25,
-   names:{it:'xIdro Mini',en:'xIdro Mini',es:'xIdro Mini',fr:'xIdro Mini',pl:'xIdro Mini',pt:'xIdro Mini'},
+   maxDisc:0.15,
+   swTiers:[[5,70],[20,50],[50,40],[999999,20]],
+   swCost:10,
+   swMaxDisc:0.35,
+   names:{it:'xIdro Mini + DSS Irrigazione',en:'xIdro Mini + Irrigation DSS',es:'xIdro Mini + DSS Irrigación',fr:'xIdro Mini + DSS Irrigation',pl:'xIdro Mini + DSS Nawadniania',pt:'xIdro Mini + DSS Irrigação'},
    descs:{
-     it:'Centralina per controllo irrigazione da remoto (4 output). Abbinabile al DSS Irrigazione',
-     en:'Remote irrigation controller (4 outputs). Pairs with Irrigation DSS module',
-     es:'Centralita de control de riego remoto (4 salidas). Compatible con módulo DSS Irrigación',
-     fr:'Contrôleur d\'irrigation à distance (4 sorties). Compatible avec le module DSS Irrigation',
-     pl:'Zdalne sterowanie nawadnianiem (4 wyjścia). Kompatybilne z modułem DSS Nawadniania',
-     pt:'Controlador de irrigação remoto (4 saídas). Compatível com o módulo DSS Irrigação'
+     it:'Bundle: centralina irrigazione (4 output) + gestione irrigazione automatica xFarm. HW €350 una tantum · SW da €70/ctrlr/anno (fascia 1–5) · Max sconto HW 15% · SW 35%',
+     en:'Bundle: irrigation controller (4 outputs) + xFarm automatic irrigation management. HW €350 one-time · SW from €70/ctrl/yr (1–5 tier) · Max HW disc 15% · SW 35%',
+     es:'Bundle: centralita de riego (4 salidas) + gestión irrigación automática xFarm. HW €350 único · SW desde €70/ctrlr/año (tramo 1–5) · Desc máx HW 15% · SW 35%',
+     fr:'Bundle: contrôleur irrigation (4 sorties) + gestion irrigation automatique xFarm. HW €350 unique · SW dès €70/ctrl/an (tranche 1–5) · Remise max HW 15% · SW 35%',
+     pl:'Bundle: sterownik nawadniania (4 wyjścia) + automatyczne zarządzanie nawadnianiem xFarm. HW €350 jednorazowo · SW od €70/ctrl/rok (poziom 1–5) · Max rabt HW 15% · SW 35%',
+     pt:'Bundle: controlador rega (4 saídas) + gestão rega automática xFarm. HW €350 único · SW a partir €70/ctrl/ano (nível 1–5) · Desc máx HW 15% · SW 35%'
    }
   },
   {pk:'xidro_pro', dot:'#0277BD', section:'hw',
@@ -4521,10 +4589,47 @@ const PRODUCTS = [
      pl:'Zaawansowany sterownik nawadniania dla złożonych systemów. Pełna integracja z xFarm',
      pt:'Controlador de irrigação avançado para sistemas complexos. Integração completa com xFarm'
    }
-  },
+  }
 
+  /* ── NUOVI PRODOTTI HW (Pricelist 2026) ── */
+  ,{pk:'xnode_v2', dot:'#455A64', section:'hw',
+    segments:['small','medium','enterprise'], crops:[],
+    price:{type:'hw', once:300, annual:30}, cost:75, maxDisc:0.25,
+    names:{it:'xNode V2',en:'xNode V2',es:'xNode V2',fr:'xNode V2',pl:'xNode V2',pt:'xNode V2'},
+    descs:{it:'Gateway IoT standalone. Connette sensori aggiuntivi o terzi a xFarm via LoRa/cellular.',en:'Standalone IoT gateway. Connects additional or third-party sensors to xFarm via LoRa/cellular.',es:'Gateway IoT autónomo. Conecta sensores adicionales o de terceros a xFarm via LoRa/cellular.',fr:'Passerelle IoT autonome. Connecte des capteurs supplémentaires ou tiers à xFarm via LoRa/cellular.',pl:'Samodzielna bramka IoT. Łączy dodatkowe lub zewnętrzne czujniki z xFarm przez LoRa/cellular.',pt:'Gateway IoT autónomo. Liga sensores adicionais ou de terceiros ao xFarm via LoRa/cellular.'}
+  }
+  ,{pk:'xtrap_delta_plus', dot:'#7CB342', section:'hw',
+    segments:['small','medium','enterprise'], crops:['ol','vi','to','ap','veg'],
+    price:{type:'hw_once', once:590}, cost:170, maxDisc:0.25,
+    names:{it:'xTrap Delta Plus',en:'xTrap Delta Plus',es:'xTrap Delta Plus',fr:'xTrap Delta Plus',pl:'xTrap Delta Plus',pt:'xTrap Delta Plus'},
+    descs:{it:'Trappola feromonica xTrap Delta con Solar Shield e sensore SHT31 integrati.',en:'xTrap Delta pheromone trap with integrated Solar Shield and SHT31 sensor.',es:'Trampa feromónica xTrap Delta con Solar Shield y sensor SHT31 integrados.',fr:'Piège phéromonique xTrap Delta avec Solar Shield et capteur SHT31 intégrés.',pl:'Pułapka feromonowa xTrap Delta ze zintegrowanym Solar Shield i czujnikiem SHT31.',pt:'Armadilha feromonial xTrap Delta com Solar Shield e sensor SHT31 integrados.'}
+  }
+  ,{pk:'xtrap_delta_pro_plus', dot:'#558B2F', section:'hw',
+    segments:['small','medium','enterprise'], crops:['ol','vi','to','ap','veg'],
+    price:{type:'hw_once', once:900}, cost:198, maxDisc:0.25,
+    names:{it:'xTrap Delta PRO Plus',en:'xTrap Delta PRO Plus',es:'xTrap Delta PRO Plus',fr:'xTrap Delta PRO Plus',pl:'xTrap Delta PRO Plus',pt:'xTrap Delta PRO Plus'},
+    descs:{it:'xTrap Delta PRO autopulente con Solar Shield e sensore SHT31. Massima autonomia stagionale.',en:'Self-cleaning xTrap Delta PRO with Solar Shield and SHT31. Maximum seasonal autonomy.',es:'xTrap Delta PRO autolimpiante con Solar Shield y SHT31. Máxima autonomía estacional.',fr:'xTrap Delta PRO autonettoyant avec Solar Shield et SHT31. Autonomie saisonnière maximale.',pl:'Samooczyszczająca xTrap Delta PRO z Solar Shield i SHT31. Maksymalna autonomia sezonowa.',pt:'xTrap Delta PRO autolimpante com Solar Shield e SHT31. Máxima autonomia sazonal.'}
+  }
+  ,{pk:'xtrap_color_plus', dot:'#F9A825', section:'hw',
+    segments:['small','medium','enterprise'], crops:['ol','vi','to','ap','veg'],
+    price:{type:'hw_once', once:640}, cost:165, maxDisc:0.25,
+    names:{it:'xTrap Color Plus',en:'xTrap Color Plus',es:'xTrap Color Plus',fr:'xTrap Color Plus',pl:'xTrap Color Plus',pt:'xTrap Color Plus'},
+    descs:{it:'Trappola cromotorpica xTrap Color con Solar Shield e sensore SHT31 integrati.',en:'xTrap Color chromotropic trap with integrated Solar Shield and SHT31 sensor.',es:'Trampa cromotrópica xTrap Color con Solar Shield y sensor SHT31 integrados.',fr:'Piège chromotropical xTrap Color avec Solar Shield et capteur SHT31 intégrés.',pl:'Pułapka chromotaktyczna xTrap Color ze zintegrowanym Solar Shield i SHT31.',pt:'Armadilha cromotrópica xTrap Color com Solar Shield e sensor SHT31 integrados.'}
+  }
+  ,{pk:'xair_shield', dot:'#4FC3F7', section:'hw',
+    segments:['small','medium','enterprise'], crops:[],
+    price:{type:'hw', once:280, annual:30}, cost:111, maxDisc:0.25,
+    names:{it:'Air Solar Shield',en:'Air Solar Shield',es:'Air Solar Shield',fr:'Air Solar Shield',pl:'Air Solar Shield',pt:'Air Solar Shield'},
+    descs:{it:'xNode V2 + sensore SHT31 con Solar Shield. Misura temperatura e umidità con protezione solare.',en:'xNode V2 + SHT31 sensor with Solar Shield. Measures temperature and humidity with solar shield.',es:'xNode V2 + sensor SHT31 con Solar Shield. Mide temperatura y humedad con protección solar.',fr:'xNode V2 + capteur SHT31 avec Solar Shield. Mesure température et humidité avec protection solaire.',pl:'xNode V2 + czujnik SHT31 z Solar Shield. Mierzy temperaturę i wilgotność z osłoną słoneczną.',pt:'xNode V2 + sensor SHT31 com Solar Shield. Mede temperatura e humidade com proteção solar.'}
+  }
+  ,{pk:'xwet_bulb', dot:'#1565C0', section:'hw',
+    segments:['medium','enterprise'], crops:['ol','vi','to','ap','ar','veg'],
+    price:{type:'hw', once:565, annual:30}, cost:87, maxDisc:0.25,
+    names:{it:'Wet Bulb',en:'Wet Bulb',es:'Wet Bulb',fr:'Wet Bulb',pl:'Wet Bulb',pt:'Wet Bulb'},
+    descs:{it:'xNode V2 con sensore wet bulb per misurazione temperatura di bulbo umido. Ideale per irrigazione e stress idrico.',en:'xNode V2 with wet bulb sensor for wet bulb temperature measurement. Ideal for irrigation and water stress analysis.',es:'xNode V2 con sensor wet bulb para medición de temperatura de bulbo húmedo. Ideal para irrigación y estrés hídrico.',fr:'xNode V2 avec capteur wet bulb pour mesure de température de bulbe humide. Idéal pour irrigation et stress hydrique.',pl:'xNode V2 z czujnikiem wet bulb do pomiaru temperatury termometru mokrego. Idealny do nawadniania i analizy stresu wodnego.',pt:'xNode V2 com sensor wet bulb para medição de temperatura de bolbo húmido. Ideal para irrigação e análise de stress hídrico.'}
+  }
   /* ── MACHINE CONNECTIVITY ── */
-  {pk:'conn_nativa', dot:'#37474F', section:'conn',
+  ,{pk:'conn_nativa', dot:'#37474F', section:'conn',
    segments:['medium','enterprise'],
    crops:[],
    price:{type:'flat_only', eur:200},
@@ -4645,8 +4750,8 @@ const PRODUCTS = [
   /* ── ADDITIONAL WEATHER SENSORS ── */
   ,{pk:'xsense_xcam', dot:'#00838F', section:'hw',
    segments:['medium','enterprise'], crops:[],
-   price:{type:'hw', once:1090, annual:150},
-   cost:190,
+   price:{type:'hw', once:1140, annual:120},
+   cost:170,
    maxDisc:0.25,
    names:{it:'xSense V2 + xCam',en:'xSense V2 + xCam',es:'xSense V2 + xCam',fr:'xSense V2 + xCam',pl:'xSense V2 + xCam',pt:'xSense V2 + xCam'},
    descs:{
@@ -4658,9 +4763,24 @@ const PRODUCTS = [
      pt:'Estação meteorológica com câmara integrada para monitorização visual de culturas e fenologia'
    }
   }
+  ,{pk:'xsense_xleaf_xcam', dot:'#004D40', section:'hw',
+   segments:['medium','enterprise'], crops:['ol','vi','to','ap','veg'],
+   price:{type:'hw', once:1240, annual:120},
+   cost:190,
+   maxDisc:0.25,
+   names:{it:'xSense V2 + xLeaf + xCam',en:'xSense V2 + xLeaf + xCam',es:'xSense V2 + xLeaf + xCam',fr:'xSense V2 + xLeaf + xCam',pl:'xSense V2 + xLeaf + xCam',pt:'xSense V2 + xLeaf + xCam'},
+   descs:{
+     it:'Stazione meteo top di gamma: bagnatura fogliare + fotocamera integrata. Configurazione completa per DSS Difesa con monitoraggio visivo fenologico',
+     en:'Top-spec weather station: leaf wetness sensor + integrated camera. Complete setup for Crop Protection DSS with visual phenology monitoring',
+     es:'Estación meteorológica top: sensor de humedad foliar + cámara integrada. Configuración completa para DSS Protección con monitoreo visual fenológico',
+     fr:'Station météo haut de gamme: capteur de mouillure foliaire + caméra intégrée. Configuration complète pour DSS Protection avec suivi phénologique visuel',
+     pl:'Topowa stacja meteorologiczna: czujnik wilgotności liści + zintegrowana kamera. Pełna konfiguracja dla DSS Ochrony Upraw z wizualnym monitorowaniem fenologii',
+     pt:'Estação meteorológica topo de gama: sensor de molhamento foliar + câmara integrada. Configuração completa para DSS Proteção com monitorização visual fenológica'
+   }
+  }
   ,{pk:'xsense_xleaf', dot:'#006064', section:'hw',
    segments:['small','medium','enterprise'], crops:['ol','vi','to','ap','veg'],
-   price:{type:'hw', once:1390, annual:150},
+   price:{type:'hw', once:1090, annual:120},
    cost:145,
    maxDisc:0.25,
    names:{it:'xSense V2 + xLeaf',en:'xSense V2 + xLeaf',es:'xSense V2 + xLeaf',fr:'xSense V2 + xLeaf',pl:'xSense V2 + xLeaf',pt:'xSense V2 + xLeaf'},
@@ -4690,8 +4810,8 @@ const PRODUCTS = [
   }
   ,{pk:'xleaf', dot:'#26A69A', section:'hw',
    segments:['small','medium','enterprise'], crops:['ol','vi','to','ap','veg'],
-   price:{type:'hw', once:400, annual:30},
-   cost:73,
+   price:{type:'hw', once:100, annual:30},
+   cost:20,
    maxDisc:0.25,
    names:{it:'xLeaf',en:'xLeaf',es:'xLeaf',fr:'xLeaf',pl:'xLeaf',pt:'xLeaf'},
    descs:{
@@ -4752,9 +4872,9 @@ const PRODUCTS = [
   }
 
   /* ── MULTILEVEL SOIL SENSORS (xMultilevel = xNode + Sentek probe) ── */
-  ,{pk:'xmultilevel_30', dot:'#6D4C41', section:'hw',
+  ,{pk:'xmultilevel_30', dot:'#6D4C41', section:'hw', /* price corrected to €880 per 2026 pricelist */
    segments:['medium','enterprise'], crops:[],
-   price:{type:'hw', once:800, annual:30},
+   price:{type:'hw', once:880, annual:30},
    cost:362,
    maxDisc:0.20,
    names:{it:'xMultilevel 30 cm',en:'xMultilevel 30 cm',es:'xMultilevel 30 cm',fr:'xMultilevel 30 cm',pl:'xMultilevel 30 cm',pt:'xMultilevel 30 cm'},
@@ -4936,11 +5056,199 @@ const PRODUCTS = [
      pt:'Guiamento avançado câmeras + RTK + ISOBUS. Para pomares e vinhas com GPS instável'
    }
   }
+  /* ── ACCESSORIES ── */
+  ,{pk:'solar_panel', dot:'#F9A825', section:'acc',
+    segments:['small','medium','enterprise'], crops:[],
+    price:{type:'hw_once', once:90}, cost:27, maxDisc:0.25,
+    names:{it:'Pannello solare HP 25W',en:'Solar Panel HP 25W',es:'Panel solar HP 25W',fr:'Panneau solaire HP 25W',pl:'Panel słoneczny HP 25W',pt:'Painel solar HP 25W'},
+    descs:{it:'Pannello 25W per alimentazione esterna di xSense/xNode. Ideale per installazioni remote senza rete elettrica.',en:'25W solar panel for external power of xSense/xNode. Ideal for remote sites without grid power.',es:'Panel solar 25W para alimentación externa de xSense/xNode. Ideal para instalaciones remotas sin red eléctrica.',fr:'Panneau 25W pour alimentation externe xSense/xNode. Idéal hors réseau électrique.',pl:'Panel 25W do zewnętrznego zasilania xSense/xNode. Idealny dla zdalnych lokalizacji bez sieci.',pt:'Painel 25W para alimentação externa de xSense/xNode. Ideal para instalações remotas.'}
+  }
+  ,{pk:'pole_40mm', dot:'#6D4C41', section:'acc',
+    segments:['small','medium','enterprise'], crops:[],
+    price:{type:'hw_once', once:20}, cost:7, maxDisc:0.25,
+    names:{it:'Paletto ⌀40mm (1 metro)',en:'Pole ⌀40mm (1 metre)',es:'Poste ⌀40mm (1 metro)',fr:'Piquet ⌀40mm (1 mètre)',pl:'Słupek ⌀40mm (1 metr)',pt:'Poste ⌀40mm (1 metro)'},
+    descs:{it:'Sezione paletto ⌀40mm, lunghezza 1m. Struttura più robusta per aree ventose.',en:'Pole section ⌀40mm, 1m long. Sturdier for windy sites.',es:'Sección de poste ⌀40mm, 1m. Más robusta para zonas ventosas.',fr:'Section de piquet ⌀40mm, 1m. Plus robuste pour les sites venteux.',pl:'Odcinek słupka ⌀40mm, 1m. Bardziej wytrzymały dla wietrznych miejsc.',pt:'Secção de poste ⌀40mm, 1m. Mais robusto para locais ventosos.'}
+  }
+  ,{pk:'pole_kit_leaf', dot:'#26A69A', section:'acc',
+    segments:['small','medium','enterprise'], crops:[],
+    price:{type:'hw_once', once:10}, cost:2, maxDisc:0.25,
+    names:{it:'Kit supporto xLeaf',en:'xLeaf pole support kit',es:'Kit soporte xLeaf',fr:'Kit support xLeaf',pl:'Zestaw mocowania xLeaf',pt:'Kit suporte xLeaf'},
+    descs:{it:'Kit di fissaggio a paletto per sensore xLeaf. Inclinazione regolabile.',en:'Pole mounting kit for xLeaf sensor. Adjustable tilt.',es:'Kit de montaje en poste para sensor xLeaf. Inclinación ajustable.',fr:'Kit de fixation sur piquet pour capteur xLeaf. Inclinaison réglable.',pl:'Zestaw montażowy do słupka dla xLeaf. Regulowane nachylenie.',pt:'Kit de montagem em poste para xLeaf. Inclinação ajustável.'}
+  }
+  ,{pk:'pole_kit_trap', dot:'#558B2F', section:'acc',
+    segments:['small','medium','enterprise'], crops:[],
+    price:{type:'hw_once', once:10}, cost:3, maxDisc:0.25,
+    names:{it:'Kit supporto xTrap',en:'xTrap pole support kit',es:'Kit soporte xTrap',fr:'Kit support xTrap',pl:'Zestaw mocowania xTrap',pt:'Kit suporte xTrap'},
+    descs:{it:'Kit di fissaggio a paletto per trappole xTrap. Compatibile con tutti i modelli.',en:'Pole mounting kit for xTrap traps. Compatible with all models.',es:'Kit de montaje en poste para xTrap. Compatible con todos los modelos.',fr:'Kit de fixation sur piquet pour xTrap. Compatible avec tous les modèles.',pl:'Zestaw montażowy do słupka dla xTrap. Kompatybilny ze wszystkimi modelami.',pt:'Kit de montagem em poste para xTrap. Compatível com todos os modelos.'}
+  }
+  ,{pk:'adhesive_delta', dot:'#8BC34A', section:'acc',
+    segments:['small','medium','enterprise'], crops:[],
+    price:{type:'hw_once', once:30}, cost:3, maxDisc:0.25,
+    names:{it:'Fogli adesivi xTrap Delta (10 pz)',en:'xTrap Delta adhesive sheets (10 pcs)',es:'Láminas adhesivas xTrap Delta (10 uds)',fr:'Plaques adhésives xTrap Delta (10 pcs)',pl:'Arkusze klejące xTrap Delta (10 szt)',pt:'Folhas adesivas xTrap Delta (10 un)'},
+    descs:{it:'Fogli adesivi bianchi per xTrap Delta/Delta Pro. Consumabile stagionale.',en:'White adhesive sheets for xTrap Delta/Delta Pro. Seasonal consumable.',es:'Láminas adhesivas blancas para xTrap Delta/Delta Pro. Consumible de temporada.',fr:'Plaques adhésives blanches pour xTrap Delta/Delta Pro. Consommable saisonnier.',pl:'Białe arkusze klejące dla xTrap Delta/Delta Pro. Sezonowy materiał eksploatacyjny.',pt:'Folhas adesivas brancas para xTrap Delta/Delta Pro. Consumível sazonal.'}
+  }
+  ,{pk:'adhesive_color', dot:'#FDD835', section:'acc',
+    segments:['small','medium','enterprise'], crops:[],
+    price:{type:'hw_once', once:30}, cost:3, maxDisc:0.25,
+    names:{it:'Fogli adesivi xTrap Color (10 pz)',en:'xTrap Color adhesive sheets (10 pcs)',es:'Láminas adhesivas xTrap Color (10 uds)',fr:'Plaques adhésives xTrap Color (10 pcs)',pl:'Arkusze klejące xTrap Color (10 szt)',pt:'Folhas adesivas xTrap Color (10 un)'},
+    descs:{it:'Fogli adesivi gialli per xTrap Color. Consumabile stagionale.',en:'Yellow adhesive sheets for xTrap Color. Seasonal consumable.',es:'Láminas adhesivas amarillas para xTrap Color. Consumible de temporada.',fr:'Plaques adhésives jaunes pour xTrap Color. Consommable saisonnier.',pl:'Żółte arkusze klejące dla xTrap Color. Sezonowy materiał eksploatacyjny.',pt:'Folhas adesivas amarelas para xTrap Color. Consumível sazonal.'}
+  }
+  ,{pk:'adhesive_roll', dot:'#33691E', section:'acc',
+    segments:['small','medium','enterprise'], crops:[],
+    price:{type:'hw_once', once:40}, cost:3, maxDisc:0.25,
+    names:{it:'Rotolo adesivo auto-pulizia (1 pz)',en:'Self-cleaning adhesive roll (1 pc)',es:'Rollo adhesivo autolimpiante (1 ud)',fr:'Rouleau adhésif autonettoyant (1 pc)',pl:'Rolka samoprzylepna samooczyszczająca (1 szt)',pt:'Rolo adesivo autolimpante (1 un)'},
+    descs:{it:'Rotolo adesivo per xTrap Delta Pro. 1 stagione. Ricambio consumabile.',en:'Adhesive roll for xTrap Delta Pro. 1 season duration. Consumable replacement.',es:'Rollo adhesivo para xTrap Delta Pro. 1 temporada. Repuesto consumible.',fr:'Rouleau adhésif pour xTrap Delta Pro. 1 saison. Remplacement consommable.',pl:'Rolka dla xTrap Delta Pro. 1 sezon użytkowania. Wymiana materiałów eksploatacyjnych.',pt:'Rolo para xTrap Delta Pro. Duração 1 época. Substituição consumível.'}
+  }
+  ,{pk:'power_supply', dot:'#546E7A', section:'acc',
+    segments:['small','medium','enterprise'], crops:[],
+    price:{type:'hw_once', once:20}, cost:10, maxDisc:0.25,
+    names:{it:'Alimentatore 220V 2A (xSense/xNode)',en:'220V 2A power supply (xSense/xNode)',es:'Fuente 220V 2A (xSense/xNode)',fr:'Alimentation 220V 2A (xSense/xNode)',pl:'Zasilacz 220V 2A (xSense/xNode)',pt:'Alimentação 220V 2A (xSense/xNode)'},
+    descs:{it:'Alimentatore da rete 220V 2A per xSense V2 o xNode V2. Alternativa alla batteria solare.',en:'220V 2A mains power for xSense V2 or xNode V2. Alternative to solar in covered locations.',es:'Fuente de red 220V 2A para xSense V2 o xNode V2. Alternativa solar en interiores.',fr:'Alimentation secteur 220V 2A pour xSense/xNode V2. Alternative au solaire en intérieur.',pl:'Zasilacz 220V 2A dla xSense/xNode V2. Alternatywa dla panelu słonecznego w pomieszczeniach.',pt:'Alimentação 220V 2A para xSense/xNode V2. Alternativa ao solar em interiores.'}
+  }
+
+  /* ── SERVICES ── */
+  ,{pk:'install_visit', dot:'#37474F', section:'svc', hiddenFromGrid:true,
+    segments:['small','medium','enterprise'], crops:[],
+    price:{type:'hw_once', once:150}, cost:50, maxDisc:0.15,
+    names:{it:'Installazione — visita base',en:'Installation — base visit',es:'Instalación — visita base',fr:'Installation — visite de base',pl:'Instalacja — wizyta bazowa',pt:'Instalação — visita base'},
+    descs:{it:'Costo fisso per visita di installazione o manutenzione.',en:'Fixed cost per installation or maintenance visit.',es:'Coste fijo por visita de instalación.',fr:'Coût fixe par visite d\'installation.',pl:'Stały koszt wizyty instalacyjnej.',pt:'Custo fixo por visita de instalação.'}
+  }
+  ,{pk:'install_sensor', dot:'#455A64', section:'svc',
+    segments:['small','medium','enterprise'], crops:[],
+    price:{type:'install_pkg', base:150, perUnit:100}, cost:80, maxDisc:0.15,
+    names:{it:'Installazione sensori (1–10)',en:'Sensor installation (1–10)',es:'Instalación sensores (1–10)',fr:'Installation capteurs (1–10)',pl:'Instalacja czujników (1–10)',pt:'Instalação sensores (1–10)'},
+    descs:{it:'Visita base €150 (una tantum per intervento) + €100 per sensore installato. Fascia 1–10 sensori. Per >10 sensori richiedere preventivo a OPS.',en:'Base visit €150 (one-off per intervention) + €100 per installed sensor. 1–10 sensor range. For >10 sensors request a quote from OPS.',es:'Visita base €150 (único por intervención) + €100 por sensor instalado. Rango 1–10. Para >10 solicitar presupuesto a OPS.',fr:'Visite de base 150 € (unique par intervention) + 100 € par capteur installé. Tranche 1–10. Pour >10, demander devis à OPS.',pl:'Wizyta bazowa 150 € (jednorazowo) + 100 € za czujnik. Zakres 1–10. Dla >10 zapytanie do OPS.',pt:'Visita base €150 (única por intervenção) + €100 por sensor instalado. Faixa 1–10. Para >10 solicitar orçamento à OPS.'}
+  }
+  ,{pk:'training_launch', dot:'#1565C0', section:'svc', hiddenFromGrid:true,
+    segments:['small','medium','enterprise'], crops:[],
+    price:{type:'hw_once', once:180}, cost:0, maxDisc:0,
+    names:{it:'Training Launch',en:'Training Launch',es:'Training Launch',fr:'Training Launch',pl:'Training Launch',pt:'Training Launch'},
+    descs:{it:'2 ore online · Validità 3 mesi. Consigliato per 1–2 moduli.',en:'2 hours online · Valid 3 months. Recommended for 1–2 modules.',es:'2 horas online · Validez 3 meses. Recomendado para 1–2 módulos.',fr:'2 heures en ligne · Valide 3 mois. Recommandé pour 1–2 modules.',pl:'2 godziny online · Ważność 3 miesiące. Zalecany dla 1–2 modułów.',pt:'2 horas online · Validade 3 meses. Recomendado para 1–2 módulos.'}
+  }
+  ,{pk:'training_boost', dot:'#1976D2', section:'svc', hiddenFromGrid:true,
+    segments:['small','medium','enterprise'], crops:[],
+    price:{type:'hw_once', once:300}, cost:0, maxDisc:0,
+    names:{it:'Training Boost',en:'Training Boost',es:'Training Boost',fr:'Training Boost',pl:'Training Boost',pt:'Training Boost'},
+    descs:{it:'4 ore online · Validità 6 mesi. Consigliato per 3–4 moduli.',en:'4 hours online · Valid 6 months. Recommended for 3–4 modules.',es:'4 horas online · Validez 6 meses. Recomendado para 3–4 módulos.',fr:'4 heures en ligne · Valide 6 mois. Recommandé pour 3–4 modules.',pl:'4 godziny online · Ważność 6 miesięcy. Zalecany dla 3–4 modułów.',pt:'4 horas online · Validade 6 meses. Recomendado para 3–4 módulos.'}
+  }
+  ,{pk:'training_summit', dot:'#0D47A1', section:'svc', hiddenFromGrid:true,
+    segments:['small','medium','enterprise'], crops:[],
+    price:{type:'hw_once', once:600}, cost:0, maxDisc:0,
+    names:{it:'Training Summit',en:'Training Summit',es:'Training Summit',fr:'Training Summit',pl:'Training Summit',pt:'Training Summit'},
+    descs:{it:'10 ore online · Validità 12 mesi. Consigliato per 5+ moduli.',en:'10 hours online · Valid 12 months. Recommended for 5+ modules.',es:'10 horas online · Validez 12 meses. Recomendado para 5+ módulos.',fr:'10 heures en ligne · Valide 12 mois. Recommandé pour 5+ modules.',pl:'10 godzin online · Ważność 12 miesięcy. Zalecany dla 5+ modułów.',pt:'10 horas online · Validade 12 meses. Recomendado para 5+ módulos.'}
+  }
+  ,{pk:'training_extra', dot:'#1A237E', section:'svc', hiddenFromGrid:true,
+    segments:['small','medium','enterprise'], crops:[],
+    price:{type:'hw_once', once:100}, cost:0, maxDisc:0,
+    names:{it:'Training — Extra Hour',en:'Training — Extra Hour',es:'Training — Hora Extra',fr:'Training — Heure Supp.',pl:'Training — Godz. Dodatkowa',pt:'Training — Hora Extra'},
+    descs:{it:'1 ora aggiuntiva · Aggiungibile a qualsiasi pacchetto in qualsiasi momento.',en:'1 hour add-on · Can be added to any package at any time.',es:'1 hora adicional · Se puede añadir a cualquier paquete en cualquier momento.',fr:'1 heure supplémentaire · Ajoutez à tout moment à n\'importe quel pack.',pl:'1 dodatkowa godzina · Można dodać do dowolnego pakietu w dowolnym momencie.',pt:'1 hora adicional · Pode ser adicionada a qualquer pacote a qualquer momento.'}
+  }
+
+
+  /* ── NUOVI ADD-ON / ACCESSORI (Pricelist 2026) ── */
+  ,{pk:'soil_protection', dot:'#8D6E63', section:'acc',
+    segments:['small','medium','enterprise'], crops:[],
+    price:{type:'hw_once', once:8}, cost:1, maxDisc:0.25,
+    names:{it:'Protezione sensore suolo (60 cm)',en:'Soil sensor protection (60 cm)',es:'Protección sensor suelo (60 cm)',fr:'Protection capteur sol (60 cm)',pl:'Osłona czujnika glebowego (60 cm)',pt:'Proteção sensor de solo (60 cm)'},
+    descs:{it:'Manicotto protettivo per sonde di umidità suolo fino a 60 cm di profondità.',en:'Protective sleeve for soil moisture probes up to 60 cm depth.',es:'Funda protectora para sondas de humedad del suelo hasta 60 cm de profundidad.',fr:"Manchon de protection pour sondes d'humidité sol jusqu'à 60 cm de profondeur.",pl:'Osłona ochronna dla sond wilgotności gleby do 60 cm głębokości.',pt:'Bainha protetora para sondas de humidade do solo até 60 cm de profundidade.'}
+  }
+  ,{pk:'xcam_acc', dot:'#0097A7', section:'acc',
+    segments:['small','medium','enterprise'], crops:[],
+    price:{type:'hw_once', once:150}, cost:50, maxDisc:0.25,
+    names:{it:'xCam (add-on fotocamera)',en:'xCam (camera add-on)',es:'xCam (complemento cámara)',fr:'xCam (module caméra)',pl:'xCam (moduł kamery)',pt:'xCam (módulo câmara)'},
+    descs:{it:'Fotocamera add-on per stazione xSense. Cattura immagini della coltura per monitoraggio visivo e analisi AI.',en:'Camera add-on for xSense weather station. Captures crop images for visual monitoring and AI analysis.',es:'Cámara add-on para estación xSense. Captura imágenes del cultivo para monitoreo visual y análisis IA.',fr:'Module caméra pour station xSense. Capture des images de culture pour monitoring visuel et analyse IA.',pl:'Moduł kamery do stacji xSense. Przechwytuje obrazy upraw do monitoringu wizualnego i analizy AI.',pt:'Módulo câmara para estação xSense. Captura imagens da cultura para monitorização visual e análise IA.'}
+  }
+  ,{pk:'xidro_relay', dot:'#37474F', section:'acc',
+    segments:['small','medium','enterprise'], crops:[],
+    price:{type:'hw_once', once:50}, cost:15, maxDisc:0.25,
+    names:{it:'Relè pompa xIdro',en:'xIdro pump relay',es:'Relé bomba xIdro',fr:'Relais pompe xIdro',pl:'Przekaźnik pompy xIdro',pt:'Relé bomba xIdro'},
+    descs:{it:'Relè per il controllo diretto della pompa di irrigazione tramite xIdro Pro. Accessorio per automazione avanzata.',en:'Relay for direct irrigation pump control via xIdro Pro. Accessory for advanced automation.',es:'Relé para el control directo de la bomba de riego mediante xIdro Pro. Accesorio para automatización avanzada.',fr:"Relais pour le contrôle direct de la pompe d'irrigation via xIdro Pro. Accessoire pour automatisation avancée.",pl:'Przekaźnik do bezpośredniego sterowania pompą nawadniającą przez xIdro Pro.',pt:'Relé para controlo direto da bomba de rega via xIdro Pro. Acessório para automação avançada.'}
+  }
+  ,{pk:'xidro_pressure_sw', dot:'#546E7A', section:'acc',
+    segments:['small','medium','enterprise'], crops:[],
+    price:{type:'hw_once', once:10}, cost:3, maxDisc:0.25,
+    names:{it:'Pressostato xIdro (NC, 0.85 bar)',en:'Pressure switch xIdro (NC, 0.85 bar)',es:'Presostato xIdro (NC, 0,85 bar)',fr:'Pressostat xIdro (NC, 0,85 bar)',pl:'Pressostat xIdro (NC, 0,85 bar)',pt:'Pressostato xIdro (NC, 0,85 bar)'},
+    descs:{it:'Pressostato normalmente chiuso (NC), soglia 0,85 bar. Accessorio di sicurezza per impianti xIdro.',en:'Normally closed (NC) pressure switch, 0.85 bar threshold. Safety accessory for xIdro systems.',es:'Presostato normalmente cerrado (NC), umbral 0,85 bar. Accesorio de seguridad para sistemas xIdro.',fr:'Pressostat normalement fermé (NC), seuil 0,85 bar. Accessoire de sécurité pour les systèmes xIdro.',pl:'Pressostat normalnie zamknięty (NC), próg 0,85 bar. Akcesoria bezpieczeństwa dla xIdro.',pt:'Pressostato normalmente fechado (NC), limiar 0,85 bar. Acessório de segurança para sistemas xIdro.'}
+  }
+  ,{pk:'xidro_pressure_analog', dot:'#607D8B', section:'acc',
+    segments:['small','medium','enterprise'], crops:[],
+    price:{type:'hw_once', once:20}, cost:6, maxDisc:0.25,
+    names:{it:'Sensore pressione analogico xIdro (0–10 bar)',en:'Analogic pressure sensor xIdro (0–10 bar)',es:'Sensor presión analógico xIdro (0–10 bar)',fr:'Capteur pression analogique xIdro (0–10 bar)',pl:'Analogowy czujnik ciśnienia xIdro (0–10 bar)',pt:'Sensor pressão analógico xIdro (0–10 bar)'},
+    descs:{it:'Sensore di pressione analogico, range 0–10 bar, precisione 0,1 bar. Per monitoraggio circuito idraulico xIdro.',en:'Analogic pressure sensor, 0–10 bar range, 0.1 bar accuracy. For xIdro hydraulic circuit monitoring.',es:'Sensor de presión analógico, rango 0–10 bar, precisión 0,1 bar. Para monitoreo del circuito hidráulico xIdro.',fr:'Capteur de pression analogique, plage 0–10 bar, précision 0,1 bar. Pour surveillance du circuit hydraulique xIdro.',pl:'Analogowy czujnik ciśnienia, zakres 0–10 bar, dokładność 0,1 bar. Do monitorowania obiegu hydraulicznego xIdro.',pt:'Sensor de pressão analógico, gama 0–10 bar, precisão 0,1 bar. Para monitorização do circuito hidráulico xIdro.'}
+  }
+  ,{pk:'xidro_adapter', dot:'#78909C', section:'acc',
+    segments:['small','medium','enterprise'], crops:[],
+    price:{type:'hw_once', once:10}, cost:2, maxDisc:0.25,
+    names:{it:'Adattatore pressostato xIdro',en:'Adapter for xIdro pressure switch',es:'Adaptador presostato xIdro',fr:'Adaptateur pressostat xIdro',pl:'Adapter pressostatu xIdro',pt:'Adaptador pressostato xIdro'},
+    descs:{it:"Adattatore per pressostato xIdro. Facilita il collegamento al circuito idraulico dell'impianto di irrigazione.",en:'Adapter for xIdro pressure switch. Facilitates connection to the irrigation system hydraulic circuit.',es:'Adaptador para presostato xIdro. Facilita la conexión al circuito hidráulico del sistema de riego.',fr:"Adaptateur pour pressostat xIdro. Facilite la connexion au circuit hydraulique du système d'irrigation.",pl:'Adapter do pressostatu xIdro. Ułatwia podłączenie do obwodu hydraulicznego systemu nawadniania.',pt:'Adaptador para pressostato xIdro. Facilita a ligação ao circuito hidráulico do sistema de rega.'}
+  }
+  /* ── SENSORI STANDALONE (Add-on, Pricelist 2026) ── */
+  ,{pk:'teros_10', dot:'#795548', section:'acc',
+    segments:['small','medium','enterprise'], crops:['ol','vi','to','ap','ar','veg'],
+    price:{type:'hw_once', once:280}, cost:157, maxDisc:0.25,
+    names:{it:'Sensore Teros 10',en:'Teros 10 sensor',es:'Sensor Teros 10',fr:'Capteur Teros 10',pl:'Czujnik Teros 10',pt:'Sensor Teros 10'},
+    descs:{it:'Sensore standalone umidità suolo Teros 10. <span style="display:inline-block;background:#E3F2FD;color:#1565C0;border-radius:3px;padding:1px 5px;font-size:10px;font-weight:700;white-space:nowrap">⊕ Abbinabile a xNode V2</span>. Misura umidità e temperatura.',en:'Standalone Teros 10 soil moisture sensor. <span style="display:inline-block;background:#E3F2FD;color:#1565C0;border-radius:3px;padding:1px 5px;font-size:10px;font-weight:700;white-space:nowrap">⊕ Pairs with xNode V2</span>. Measures moisture and temperature.',es:'Sensor de humedad del suelo Teros 10 standalone. <span style="display:inline-block;background:#E3F2FD;color:#1565C0;border-radius:3px;padding:1px 5px;font-size:10px;font-weight:700;white-space:nowrap">⊕ Compatible con xNode V2</span>. Mide humedad y temperatura.',fr:'Capteur d\'humidité sol Teros 10 standalone. <span style="display:inline-block;background:#E3F2FD;color:#1565C0;border-radius:3px;padding:1px 5px;font-size:10px;font-weight:700;white-space:nowrap">⊕ Compatible xNode V2</span>. Mesure humidité et température.',pl:'Samodzielny czujnik wilgotności gleby Teros 10. <span style="display:inline-block;background:#E3F2FD;color:#1565C0;border-radius:3px;padding:1px 5px;font-size:10px;font-weight:700;white-space:nowrap">⊕ Kompatybilny z xNode V2</span>. Mierzy wilgotność i temperaturę.',pt:'Sensor de humidade do solo Teros 10 standalone. <span style="display:inline-block;background:#E3F2FD;color:#1565C0;border-radius:3px;padding:1px 5px;font-size:10px;font-weight:700;white-space:nowrap">⊕ Compatível com xNode V2</span>. Mede humidade e temperatura.'}
+  }
+  ,{pk:'teros_12', dot:'#6D4C41', section:'acc',
+    segments:['small','medium','enterprise'], crops:['ol','vi','to','ap','ar','veg'],
+    price:{type:'hw_once', once:450}, cost:246, maxDisc:0.25,
+    names:{it:'Sensore Teros 12',en:'Teros 12 sensor',es:'Sensor Teros 12',fr:'Capteur Teros 12',pl:'Czujnik Teros 12',pt:'Sensor Teros 12'},
+    descs:{it:'Sensore standalone Teros 12. Misura umidità, EC e temperatura del suolo. <span style="display:inline-block;background:#E3F2FD;color:#1565C0;border-radius:3px;padding:1px 5px;font-size:10px;font-weight:700;white-space:nowrap">⊕ Abbinabile a xNode V2</span>.',en:'Standalone Teros 12 sensor. Measures soil moisture, EC and temperature. <span style="display:inline-block;background:#E3F2FD;color:#1565C0;border-radius:3px;padding:1px 5px;font-size:10px;font-weight:700;white-space:nowrap">⊕ Pairs with xNode V2</span>.',es:'Sensor standalone Teros 12. Mide humedad, CE y temperatura del suelo. <span style="display:inline-block;background:#E3F2FD;color:#1565C0;border-radius:3px;padding:1px 5px;font-size:10px;font-weight:700;white-space:nowrap">⊕ Compatible con xNode V2</span>.',fr:'Capteur standalone Teros 12. Mesure humidité, CE et température du sol. <span style="display:inline-block;background:#E3F2FD;color:#1565C0;border-radius:3px;padding:1px 5px;font-size:10px;font-weight:700;white-space:nowrap">⊕ Compatible xNode V2</span>.',pl:'Samodzielny czujnik Teros 12. Mierzy wilgotność, EC i temperaturę gleby. <span style="display:inline-block;background:#E3F2FD;color:#1565C0;border-radius:3px;padding:1px 5px;font-size:10px;font-weight:700;white-space:nowrap">⊕ Kompatybilny z xNode V2</span>.',pt:'Sensor standalone Teros 12. Mede humidade, CE e temperatura do solo. <span style="display:inline-block;background:#E3F2FD;color:#1565C0;border-radius:3px;padding:1px 5px;font-size:10px;font-weight:700;white-space:nowrap">⊕ Compatível com xNode V2</span>.'}
+  }
+  ,{pk:'teros_21', dot:'#4E342E', section:'acc',
+    segments:['small','medium','enterprise'], crops:['ol','vi','to','ap','ar','veg'],
+    price:{type:'hw_once', once:450}, cost:234, maxDisc:0.25,
+    names:{it:'Sensore Teros 21',en:'Teros 21 sensor',es:'Sensor Teros 21',fr:'Capteur Teros 21',pl:'Czujnik Teros 21',pt:'Sensor Teros 21'},
+    descs:{it:'Sensore standalone Teros 21 per misura tensiometrica del suolo. <span style="display:inline-block;background:#E3F2FD;color:#1565C0;border-radius:3px;padding:1px 5px;font-size:10px;font-weight:700;white-space:nowrap">⊕ Abbinabile a xNode V2</span>.',en:'Standalone Teros 21 sensor for tensiometric soil measurement. <span style="display:inline-block;background:#E3F2FD;color:#1565C0;border-radius:3px;padding:1px 5px;font-size:10px;font-weight:700;white-space:nowrap">⊕ Pairs with xNode V2</span>.',es:'Sensor standalone Teros 21 para medición tensiométrica del suelo. <span style="display:inline-block;background:#E3F2FD;color:#1565C0;border-radius:3px;padding:1px 5px;font-size:10px;font-weight:700;white-space:nowrap">⊕ Compatible con xNode V2</span>.',fr:'Capteur standalone Teros 21 pour mesure tensiométrique du sol. <span style="display:inline-block;background:#E3F2FD;color:#1565C0;border-radius:3px;padding:1px 5px;font-size:10px;font-weight:700;white-space:nowrap">⊕ Compatible xNode V2</span>.',pl:'Samodzielny czujnik Teros 21 do pomiaru tensjometrycznego gleby. <span style="display:inline-block;background:#E3F2FD;color:#1565C0;border-radius:3px;padding:1px 5px;font-size:10px;font-weight:700;white-space:nowrap">⊕ Kompatybilny z xNode V2</span>.',pt:'Sensor standalone Teros 21 para medição tensiométrica do solo. <span style="display:inline-block;background:#E3F2FD;color:#1565C0;border-radius:3px;padding:1px 5px;font-size:10px;font-weight:700;white-space:nowrap">⊕ Compatível com xNode V2</span>.'}
+  }
+  ,{pk:'sentek_dd30', dot:'#8D6E63', section:'acc',
+    segments:['small','medium','enterprise'], crops:['ol','vi','to','ap','ar','veg'],
+    price:{type:'hw_once', once:600}, cost:287, maxDisc:0.25,
+    names:{it:'Sentek DD30 (standalone)',en:'Sentek DD30 (standalone)',es:'Sentek DD30 (standalone)',fr:'Sentek DD30 (standalone)',pl:'Sentek DD30 (standalone)',pt:'Sentek DD30 (standalone)'},
+    descs:{it:'Sonda Sentek DD30 standalone (30 cm). <span style="display:inline-block;background:#E3F2FD;color:#1565C0;border-radius:3px;padding:1px 5px;font-size:10px;font-weight:700;white-space:nowrap">⊕ Abbinabile a xNode V2</span>. Misura umidità e temperatura a 3 profondità.',en:'Standalone Sentek DD30 probe (30 cm). <span style="display:inline-block;background:#E3F2FD;color:#1565C0;border-radius:3px;padding:1px 5px;font-size:10px;font-weight:700;white-space:nowrap">⊕ Pairs with xNode V2</span>. Measures moisture and temperature at 3 depths.',es:'Sonda Sentek DD30 standalone (30 cm). <span style="display:inline-block;background:#E3F2FD;color:#1565C0;border-radius:3px;padding:1px 5px;font-size:10px;font-weight:700;white-space:nowrap">⊕ Compatible con xNode V2</span>. Mide humedad y temperatura a 3 profundidades.',fr:'Sonde Sentek DD30 standalone (30 cm). <span style="display:inline-block;background:#E3F2FD;color:#1565C0;border-radius:3px;padding:1px 5px;font-size:10px;font-weight:700;white-space:nowrap">⊕ Compatible xNode V2</span>. Mesure humidité et température à 3 profondeurs.',pl:'Sonda Sentek DD30 standalone (30 cm). <span style="display:inline-block;background:#E3F2FD;color:#1565C0;border-radius:3px;padding:1px 5px;font-size:10px;font-weight:700;white-space:nowrap">⊕ Kompatybilna z xNode V2</span>. Mierzy wilgotność i temperaturę na 3 głębokościach.',pt:'Sonda Sentek DD30 standalone (30 cm). <span style="display:inline-block;background:#E3F2FD;color:#1565C0;border-radius:3px;padding:1px 5px;font-size:10px;font-weight:700;white-space:nowrap">⊕ Compatível com xNode V2</span>. Mede humidade e temperatura a 3 profundidades.'}
+  }
+  ,{pk:'sentek_dd60', dot:'#78909C', section:'acc',
+    segments:['small','medium','enterprise'], crops:['ol','vi','to','ap','ar','veg'],
+    price:{type:'hw_once', once:900}, cost:422, maxDisc:0.25,
+    names:{it:'Sentek DD60 (standalone)',en:'Sentek DD60 (standalone)',es:'Sentek DD60 (standalone)',fr:'Sentek DD60 (standalone)',pl:'Sentek DD60 (standalone)',pt:'Sentek DD60 (standalone)'},
+    descs:{it:'Sonda Sentek DD60 standalone (60 cm). <span style="display:inline-block;background:#E3F2FD;color:#1565C0;border-radius:3px;padding:1px 5px;font-size:10px;font-weight:700;white-space:nowrap">⊕ Abbinabile a xNode V2</span>. Misura umidità e temperatura a 6 profondità.',en:'Standalone Sentek DD60 probe (60 cm). <span style="display:inline-block;background:#E3F2FD;color:#1565C0;border-radius:3px;padding:1px 5px;font-size:10px;font-weight:700;white-space:nowrap">⊕ Pairs with xNode V2</span>. Measures moisture and temperature at 6 depths.',es:'Sonda Sentek DD60 standalone (60 cm). <span style="display:inline-block;background:#E3F2FD;color:#1565C0;border-radius:3px;padding:1px 5px;font-size:10px;font-weight:700;white-space:nowrap">⊕ Compatible con xNode V2</span>. Mide humedad y temperatura a 6 profundidades.',fr:'Sonde Sentek DD60 standalone (60 cm). <span style="display:inline-block;background:#E3F2FD;color:#1565C0;border-radius:3px;padding:1px 5px;font-size:10px;font-weight:700;white-space:nowrap">⊕ Compatible xNode V2</span>. Mesure humidité et température à 6 profondeurs.',pl:'Sonda Sentek DD60 standalone (60 cm). <span style="display:inline-block;background:#E3F2FD;color:#1565C0;border-radius:3px;padding:1px 5px;font-size:10px;font-weight:700;white-space:nowrap">⊕ Kompatybilna z xNode V2</span>. Mierzy na 6 głębokościach.',pt:'Sonda Sentek DD60 standalone (60 cm). <span style="display:inline-block;background:#E3F2FD;color:#1565C0;border-radius:3px;padding:1px 5px;font-size:10px;font-weight:700;white-space:nowrap">⊕ Compatível com xNode V2</span>. Mede a 6 profundidades.'}
+  }
+  ,{pk:'sentek_dd90', dot:'#546E7A', section:'acc',
+    segments:['small','medium','enterprise'], crops:['ol','vi','to','ap','ar','veg'],
+    price:{type:'hw_once', once:1200}, cost:562, maxDisc:0.25,
+    names:{it:'Sentek DD90 (standalone)',en:'Sentek DD90 (standalone)',es:'Sentek DD90 (standalone)',fr:'Sentek DD90 (standalone)',pl:'Sentek DD90 (standalone)',pt:'Sentek DD90 (standalone)'},
+    descs:{it:'Sonda Sentek DD90 standalone (90 cm). <span style="display:inline-block;background:#E3F2FD;color:#1565C0;border-radius:3px;padding:1px 5px;font-size:10px;font-weight:700;white-space:nowrap">⊕ Abbinabile a xNode V2</span>. Misura umidità e temperatura a 9 profondità.',en:'Standalone Sentek DD90 probe (90 cm). <span style="display:inline-block;background:#E3F2FD;color:#1565C0;border-radius:3px;padding:1px 5px;font-size:10px;font-weight:700;white-space:nowrap">⊕ Pairs with xNode V2</span>. Measures at 9 depths.',es:'Sonda Sentek DD90 standalone (90 cm). <span style="display:inline-block;background:#E3F2FD;color:#1565C0;border-radius:3px;padding:1px 5px;font-size:10px;font-weight:700;white-space:nowrap">⊕ Compatible con xNode V2</span>. Mide a 9 profundidades.',fr:'Sonde Sentek DD90 standalone (90 cm). <span style="display:inline-block;background:#E3F2FD;color:#1565C0;border-radius:3px;padding:1px 5px;font-size:10px;font-weight:700;white-space:nowrap">⊕ Compatible xNode V2</span>. Mesure à 9 profondeurs.',pl:'Sonda Sentek DD90 standalone (90 cm). <span style="display:inline-block;background:#E3F2FD;color:#1565C0;border-radius:3px;padding:1px 5px;font-size:10px;font-weight:700;white-space:nowrap">⊕ Kompatybilna z xNode V2</span>. Mierzy na 9 głębokościach.',pt:'Sonda Sentek DD90 standalone (90 cm). <span style="display:inline-block;background:#E3F2FD;color:#1565C0;border-radius:3px;padding:1px 5px;font-size:10px;font-weight:700;white-space:nowrap">⊕ Compatível com xNode V2</span>. Mede a 9 profundidades.'}
+  }
+  ,{pk:'xsht31', dot:'#90A4AE', section:'acc',
+    segments:['small','medium','enterprise'], crops:[],
+    price:{type:'hw_once', once:30}, cost:12, maxDisc:0.25,
+    names:{it:'Sensore SHT31 T/H Aria',en:'SHT31 T/H Air sensor',es:'Sensor SHT31 T/H Aire',fr:'Capteur SHT31 T/H Air',pl:'Czujnik SHT31 T/H Powietrze',pt:'Sensor SHT31 T/H Ar'},
+    descs:{it:'Sensore standalone temperatura e umidità aria SHT31. <span style="display:inline-block;background:#E3F2FD;color:#1565C0;border-radius:3px;padding:1px 5px;font-size:10px;font-weight:700;white-space:nowrap">⊕ Abbinabile a xNode V2</span>.',en:'Standalone SHT31 air temperature and humidity sensor. <span style="display:inline-block;background:#E3F2FD;color:#1565C0;border-radius:3px;padding:1px 5px;font-size:10px;font-weight:700;white-space:nowrap">⊕ Pairs with xNode V2</span>.',es:'Sensor standalone SHT31 de temperatura y humedad del aire. <span style="display:inline-block;background:#E3F2FD;color:#1565C0;border-radius:3px;padding:1px 5px;font-size:10px;font-weight:700;white-space:nowrap">⊕ Compatible con xNode V2</span>.',fr:'Capteur standalone SHT31 de température et humidité de l\'air. <span style="display:inline-block;background:#E3F2FD;color:#1565C0;border-radius:3px;padding:1px 5px;font-size:10px;font-weight:700;white-space:nowrap">⊕ Compatible xNode V2</span>.',pl:'Samodzielny czujnik SHT31 temperatury i wilgotności powietrza. <span style="display:inline-block;background:#E3F2FD;color:#1565C0;border-radius:3px;padding:1px 5px;font-size:10px;font-weight:700;white-space:nowrap">⊕ Kompatybilny z xNode V2</span>.',pt:'Sensor standalone SHT31 de temperatura e humidade do ar. <span style="display:inline-block;background:#E3F2FD;color:#1565C0;border-radius:3px;padding:1px 5px;font-size:10px;font-weight:700;white-space:nowrap">⊕ Compatível com xNode V2</span>.'}
+  }
 ];
 
 /* ═══════════════════════════════════════════════════════
    PRICING ENGINE
 ═══════════════════════════════════════════════════════ */
+/* ── ACCESSORY GROUPS for Step 6 ── */
+const ACC_GROUPS = [
+  { key:'addon',
+    label:{it:'Add-on elettronici',en:'Electronic Add-ons',es:'Add-ons electrónicos',fr:'Add-ons électroniques',pl:'Add-ony elektroniczne',pt:'Add-ons electrónicos'},
+    pks:['xcam_acc','solar_panel','power_supply','xsht31'] },
+  { key:'sensors',
+    label:{it:'Sensori suolo standalone',en:'Standalone soil sensors',es:'Sensores suelo standalone',fr:'Capteurs sol standalone',pl:'Samodzielne czujniki glebowe',pt:'Sensores solo standalone'},
+    pks:['teros_10','teros_12','teros_21','sentek_dd30','sentek_dd60','sentek_dd90'] },
+  { key:'traps',
+    label:{it:'Ricambi Trappole',en:'Trap Spare Parts',es:'Repuestos Trampas',fr:'Pièces de Rechange Pièges',pl:'Części Zamienne do Pułapek',pt:'Peças Sobresselentes Armadilhas'},
+    pks:['adhesive_delta','adhesive_color','adhesive_roll'] },
+  { key:'xidro',
+    label:{it:'Accessori xIdro',en:'xIdro Accessories',es:'Accesorios xIdro',fr:'Accessoires xIdro',pl:'Akcesoria xIdro',pt:'Acessórios xIdro'},
+    pks:['xidro_relay','xidro_pressure_sw','xidro_pressure_analog','xidro_adapter'] },
+  { key:'install',
+    label:{it:'Accessori installazione sensori',en:'Sensor Installation Accessories',es:'Accesorios instalación sensores',fr:'Accessoires installation capteurs',pl:'Akcesoria montażu czujników',pt:'Acessórios instalação sensores'},
+    pks:['pole_40mm','pole_kit_leaf','pole_kit_trap','soil_protection'] },
+];
+
 const HA_RATE = {
   allerte:     [0.30, 0.18, 0.12, 0.10, 0.07, 0.05, 0.03, 0.02],
   controlli:   [0.33, 0.20, 0.13, 0.11, 0.08, 0.05, 0.04, 0.03],
@@ -5151,6 +5459,12 @@ function setLang(l) {
   buildSegGrid();
   if (seg) buildStep2();
   if (seg) buildResults();
+  // Refresh static add-to-estimate buttons (e.g. training-grid)
+  document.querySelectorAll('[data-est-pk]').forEach(btn => {
+    const inEst = selectedProducts.has(btn.getAttribute('data-est-pk'));
+    btn.classList.toggle('est-btn-active', inEst);
+    btn.textContent = inEst ? t().remove_from_est : t().add_to_est;
+  });
 }
 
 /* ═══════════════════════════════════════════════════════
@@ -5222,7 +5536,7 @@ function confirmStep2() {
     const names = Array.from(selectedModelCrops).slice(0,3).map(k => cropLabel(k));
     cropSummary = names.join(', ') + (selectedModelCrops.size > 3 ? ' +altri' : '');
   }
-  const haSummary = (seg !== 'dealer' && seg !== 'small') ? ha + ' ha' : '';
+  const haSummary = (seg !== 'dealer') ? ha + ' ha' : '';
   const summary = [haSummary, cropSummary].filter(Boolean).join(' · ') || '—';
   markStepDone(2, summary); unlockStep(3); openStep(3);
   if(seg)buildResults();
@@ -5299,9 +5613,9 @@ function buildStep2() {
   const el = document.getElementById('sbody-2');
   if (!el) return;
 
-  // HA input (shown for non-dealer non-small)
+  // HA input (shown for all except dealer)
   let haHtml = '';
-  if (seg !== 'dealer' && seg !== 'small') {
+  if (seg !== 'dealer') {
     haHtml = `<div class="ha-row">
       <label id="ha-lbl">${tc.ha_lbl}</label>
       <input type="number" id="ha-input" value="${ha}" min="1" max="99999" style="width:100px"
@@ -5435,10 +5749,22 @@ function toggleProduct(pk) {
     delete productQty[pk];
     delete productDisc[pk];
     delete productYears[pk];
+    // Removing xidro_mini → also remove irrigazione (bundle)
+    if (pk === 'xidro_mini') {
+      selectedProducts.delete('irrigazione');
+      delete productQty['irrigazione'];
+      delete productDisc['irrigazione'];
+    }
   } else {
     selectedProducts.add(pk);
     if (!productQty[pk]) productQty[pk] = 1;
     if (productDisc[pk] == null) productDisc[pk] = 0;
+    // Adding xidro_mini → auto-add irrigazione (DSS bundle)
+    if (pk === 'xidro_mini' && !selectedProducts.has('irrigazione')) {
+      selectedProducts.add('irrigazione');
+      if (!productQty['irrigazione']) productQty['irrigazione'] = 1;
+      if (productDisc['irrigazione'] == null) productDisc['irrigazione'] = 0;
+    }
   }
   buildEstimator();
   // Refresh card button states without full rebuild
@@ -5507,10 +5833,10 @@ function buildEstimator() {
   const FM_TARGET    = 0.75;  // below = Caution
   const FM_EXCELLENT = 0.80;  // above = Excellent
 
-  let hwRows = '', swRows = '';
-  let hwListTotal = 0, swListTotal = 0;
-  let hwOfferTotal = 0, swOfferTotal = 0;
-  let hwCostTotal = 0, swCostTotal = 0;
+  let hwRows = '', swRows = '', svcRows = '';
+  let hwListTotal = 0, swListTotal = 0, svcListTotal = 0;
+  let hwOfferTotal = 0, swOfferTotal = 0, svcOfferTotal = 0;
+  let hwCostTotal = 0, swCostTotal = 0, svcCostTotal = 0;
   let anyCostMissing = false;
   let discViolations = [];
 
@@ -5523,7 +5849,30 @@ function buildEstimator() {
     let unitCost = costKnown ? (p.cost || 0) : 0;
     let maxD = p.maxDisc != null ? p.maxDisc : 0.25;
 
-    if (p.price.type === 'hw' || p.price.type === 'hw_once') {
+    const isSvc = (p.section === 'acc' || p.section === 'svc');
+
+    // === xIdro-style: SW tier pricing (HW + SW split) ===
+    if (p.swTiers && !isSvc) {
+      const hwAmt  = p.price.once || 0;
+      const disc   = productDisc[p.pk] || 0;
+      const hwDisc = Math.min(disc, (p.maxDisc   || 0.15) * 100) / 100;
+      const swDisc = Math.min(disc, (p.swMaxDisc || 0.35) * 100) / 100;
+      let swRate = p.swTiers[p.swTiers.length-1][1];
+      for (const [mq, r] of p.swTiers) { if (qty <= mq) { swRate = r; break; } }
+      const hwLL = hwAmt * qty,  hwLO = hwLL * (1-hwDisc), hwLC = (p.cost||0)*qty;
+      const swLL = swRate * qty, swLO = swLL * (1-swDisc), swLC = (p.swCost||0)*qty;
+      hwListTotal += hwLL; hwOfferTotal += hwLO; hwCostTotal += hwLC;
+      swListTotal += swLL; swOfferTotal += swLO; swCostTotal += swLC;
+      if (hwLL>0 && p.maxDisc>0 && disc>0 && hwDisc<disc/100) discViolations.push(name+' (HW)');
+      const qtyC = `<span class="est-qty"><button onclick="changeQty('${p.pk}',-1)">−</button><input type="number" min="1" max="999" value="${qty}" class="est-qty-val" style="width:44px;text-align:center;border:1px solid #ddd;border-radius:4px;padding:2px 3px;font-size:13px;font-weight:700;-moz-appearance:textfield" onchange="changeQtyDirect('${p.pk}',this.value)" onclick="this.select()"><button onclick="changeQty('${p.pk}',+1)">+</button></span>`;
+      const hwDiscLn = `<div class="est-disc-line"><i class="ti ti-tag" style="font-size:10px;color:var(--gy)"></i><input class="est-disc-mini" type="number" min="0" max="15" step="1" value="${Math.min(disc,15)}" placeholder="0" onchange="changeDisc('${p.pk}',this.value)" onkeydown="if(event.key==='Enter')this.blur()">% <span style="font-size:10px;color:#78909C">max 15%</span>${disc>0?`<span class="est-offer-line-amt">→ ${fmtEur(hwLO)}</span>`:''}</div>`;
+      const swDiscLn = `<div class="est-disc-line"><i class="ti ti-tag" style="font-size:10px;color:var(--gy)"></i><span style="font-size:10px;color:#78909C">SW max 35%</span><span class="est-offer-line-amt">${fmtEur(swLL)}${t().yr} (${fmtEur(swRate)}/ctrl)</span></div>`;
+      hwRows += `<div class="est-row-group"><div class="est-row" style="flex-wrap:wrap;gap:2px"><span style="flex:1;min-width:100px">${name} HW</span><span style="display:flex;align-items:center;gap:4px">${qtyC}<span class="est-amount" style="min-width:70px;text-align:right">${fmtEur(hwLL)}</span><button class="est-remove-btn" onclick="toggleProduct('${p.pk}')" title="Rimuovi">✕</button></span></div>${hwDiscLn}</div>`;
+      swRows += `<div class="est-row-group"><div class="est-row" style="opacity:0.9"><span style="flex:1;min-width:100px;font-size:12px"><i class="ti ti-droplets" style="font-size:11px;color:var(--gy)"></i> ${name} SW ×${qty}</span><span class="est-amount" style="min-width:70px;text-align:right;font-size:12px">${fmtEur(swLL)}${t().yr}</span></div>${swDiscLn}</div>`;
+      return;
+    }
+
+    if (!isSvc && (p.price.type === 'hw' || p.price.type === 'hw_once')) {
       isHw = true;
       if (p.yrs) {
         const yr = productYears[p.pk] || 1;
@@ -5552,14 +5901,20 @@ function buildEstimator() {
       unitDisplay = t().free_badge;
     } else if (p.price.type === 'per_trap') {
       unitAmt = 200; unitDisplay = '€200/trap.';
+    } else if (p.price.type === 'install_pkg') {
+      // base visit €150 + €100 per sensor (qty = sensors)
+      unitAmt = p.price.base + qty * p.price.perUnit;
+      const sLbl = {it:'sensore',en:'sensor',es:'sensor',fr:'capteur',pl:'czujnik',pt:'sensor'}[lang]||'sensor';
+      unitDisplay = fmtEur(unitAmt) + ' (' + fmtEur(p.price.base) + ' base + ' + qty + '×' + fmtEur(p.price.perUnit) + ')';
     } else {
       unitDisplay = t().var_price;
     }
 
     if (!costKnown && unitAmt > 0) anyCostMissing = true;
 
-    const lineList = unitAmt * qty;
-    const lineCost = unitCost * qty;
+    // install_pkg: unitAmt already IS the total (base + qty×perUnit), don't multiply by qty again
+    const lineList = (p.price.type === 'install_pkg') ? unitAmt : unitAmt * qty;
+    const lineCost = (p.price.type === 'install_pkg') ? (50 + qty * 30) : unitCost * qty;
 
     // Per-product discount
     const disc     = productDisc[p.pk] || 0;
@@ -5570,8 +5925,29 @@ function buildEstimator() {
       discViolations.push(name);
     }
 
-    if (isHw) { hwListTotal += lineList; hwOfferTotal += lineOffer; hwCostTotal += lineCost; }
-    else       { swListTotal += lineList; swOfferTotal += lineOffer; swCostTotal += lineCost; }
+    if (!isSvc) {
+      if (isHw) { hwListTotal += lineList; hwOfferTotal += lineOffer; hwCostTotal += lineCost; }
+      else       { swListTotal += lineList; swOfferTotal += lineOffer; swCostTotal += lineCost; }
+    }
+
+    // Connectivity annual fee for hw sensors (€30/yr list, €10/yr cost — xNode V2 connectivity)
+    if (isHw && p.price.annual > 0) {
+      const connAmt  = p.price.annual;   // €30/yr
+      const connCost = 10;               // €10/yr — from 2026 pricelist
+      const connLineList  = connAmt  * qty;
+      const connLineCost  = connCost * qty;
+      const connLineOffer = connLineList * (1 - disc / 100);
+      swListTotal  += connLineList;
+      swOfferTotal += connLineOffer;
+      swCostTotal  += connLineCost;
+      const connName = ({it:'Connettività sensori',en:'Sensor connectivity',es:'Conectividad sensores',fr:'Connectivité capteurs',pl:'Łączność czujników',pt:'Conectividade sensores'}[lang]||'Sensor connectivity');
+      swRows += `<div class="est-row-group">
+        <div class="est-row" style="opacity:0.8">
+          <span style="flex:1;min-width:100px;font-size:12px"><i class="ti ti-wifi" style="font-size:11px;color:var(--gy)"></i> ${connName} ×${qty}</span>
+          <span class="est-amount" style="min-width:70px;text-align:right;font-size:12px">${fmtEur(connLineList)}${t().yr}</span>
+        </div>
+      </div>`;
+    }
 
     const qtyCtrl = `<span class="est-qty">
       <button onclick="changeQty('${p.pk}',-1)">−</button>
@@ -5609,7 +5985,9 @@ function buildEstimator() {
       ${discLine}
     </div>`;
 
-    if (isHw) hwRows += row; else swRows += row;
+    if (isSvc)       { svcRows += row; svcListTotal += lineList; svcOfferTotal += lineOffer; svcCostTotal += lineCost; }
+    else if (isHw)  { hwRows  += row; }
+    else            { swRows  += row; }
   });
 
   let body = `<div class="est-title"><i class="ti ti-calculator" style="color:var(--g)"></i>${t().est_title}</div>`;
@@ -5623,9 +6001,14 @@ function buildEstimator() {
     if (swListTotal > 0) body += `<div class="est-subtotal"><span></span><span>${fmtEur(swListTotal)}${t().yr}</span></div>`;
   }
 
-  const listTotal  = hwListTotal + swListTotal;
-  const offerTotal = hwOfferTotal + swOfferTotal;
-  const costTotal  = hwCostTotal + swCostTotal;
+  if (svcRows) {
+    body += `<div class="est-section-hdr">${t().est_svc_total}</div>${svcRows}`;
+    if (svcListTotal > 0) body += `<div class="est-subtotal"><span></span><span>${fmtEur(svcListTotal)}</span></div>`;
+  }
+
+  const listTotal  = hwListTotal + swListTotal + svcListTotal;
+  const offerTotal = hwOfferTotal + swOfferTotal + svcOfferTotal;
+  const costTotal  = hwCostTotal + swCostTotal + svcCostTotal;
   const hasCost    = costTotal > 0;
   const anyDisc    = offerTotal < listTotal - 0.001;
 
@@ -5648,21 +6031,63 @@ function buildEstimator() {
   }
 
   // FM (Primo Margine) indicator — B2F thresholds
+  // HW has structurally lower margin (~55-60%); thresholds 69/75/80 apply to SW component
   if (hasCost && listTotal > 0) {
-    const fm = offerTotal > 0 ? (offerTotal - costTotal) / offerTotal : 0;
-    const fmPct = (fm * 100).toFixed(1);
-    let cls, lbl;
-    if (fm >= FM_EXCELLENT)   { cls='mg-ok';   lbl=t().fm_excellent; }
-    else if (fm >= FM_TARGET) { cls='mg-ok';   lbl=t().fm_ok; }
-    else if (fm >= FM_FLOOR)  { cls='mg-warn'; lbl=t().fm_warn; }
-    else                       { cls='mg-low';  lbl=t().fm_low; }
-    body += `<div class="est-margin-bar ${cls}">
-      <i class="ti ti-chart-bar" style="font-size:16px"></i>
-      <span style="flex:1">${t().fm_lbl}</span>
-      <strong>${fmPct}%</strong>
-    </div>
-    <div class="est-margin-bar ${cls}" style="font-size:11px;padding:4px 10px;margin-top:-6px">${lbl}</div>
-    <div class="est-margin-detail">floor 69% · target 75% · ottimo 80%</div>`;
+    const hwFM    = hwOfferTotal > 0 ? (hwOfferTotal - hwCostTotal) / hwOfferTotal : null;
+    const swFM    = swOfferTotal > 0 ? (swOfferTotal - swCostTotal) / swOfferTotal : null;
+    const blendFM = offerTotal   > 0 ? (offerTotal   - costTotal)   / offerTotal   : 0;
+
+    // ── SW Margin — primary B2F KPI ──
+    if (swFM !== null) {
+      const fmPct = (swFM * 100).toFixed(1);
+      let cls, lbl;
+      if (swFM >= FM_EXCELLENT)   { cls='mg-ok';   lbl=t().fm_excellent; }
+      else if (swFM >= FM_TARGET) { cls='mg-ok';   lbl=t().fm_ok; }
+      else if (swFM >= FM_FLOOR)  { cls='mg-warn'; lbl=t().fm_warn; }
+      else                        { cls='mg-low';  lbl=t().fm_low; }
+      const swLbl = {it:'FM Software',en:'SW Margin (FM)',es:'Margen SW (FM)',fr:'Marge SW (FM)',pl:'Marża SW (FM)',pt:'Margem SW (FM)'}[lang]||'SW Margin (FM)';
+      body += `<div class="est-margin-bar ${cls}">
+        <i class="ti ti-chart-bar" style="font-size:16px"></i>
+        <span style="flex:1">${swLbl}</span>
+        <strong>${fmPct}%</strong>
+      </div>
+      <div class="est-margin-bar ${cls}" style="font-size:11px;padding:4px 10px;margin-top:-6px">${lbl}</div>`;
+    } else {
+      // SW not present — show blended with thresholds
+      const fmPct = (blendFM * 100).toFixed(1);
+      let cls, lbl;
+      if (blendFM >= FM_EXCELLENT)   { cls='mg-ok';   lbl=t().fm_excellent; }
+      else if (blendFM >= FM_TARGET) { cls='mg-ok';   lbl=t().fm_ok; }
+      else if (blendFM >= FM_FLOOR)  { cls='mg-warn'; lbl=t().fm_warn; }
+      else                           { cls='mg-low';  lbl=t().fm_low; }
+      body += `<div class="est-margin-bar ${cls}">
+        <i class="ti ti-chart-bar" style="font-size:16px"></i>
+        <span style="flex:1">${t().fm_lbl}</span>
+        <strong>${fmPct}%</strong>
+      </div>
+      <div class="est-margin-bar ${cls}" style="font-size:11px;padding:4px 10px;margin-top:-6px">${lbl}</div>`;
+    }
+
+    // ── HW Margin — informational (structural ~55-60%, no threshold coloring) ──
+    if (hwFM !== null) {
+      const hwPct = (hwFM * 100).toFixed(1);
+      const hwLbl = {it:'Margine HW',en:'HW Margin',es:'Margen HW',fr:'Marge HW',pl:'Marża HW',pt:'Margem HW'}[lang]||'HW Margin';
+      body += `<div class="est-margin-bar mg-na" style="margin-top:4px">
+        <i class="ti ti-device-analytics" style="font-size:16px"></i>
+        <span style="flex:1">${hwLbl}</span>
+        <strong>${hwPct}%</strong>
+      </div>`;
+    }
+
+    // ── Overall FM + detail line ──
+    if (hwFM !== null && swFM !== null) {
+      const blendPct = (blendFM * 100).toFixed(1);
+      const blendLbl = {it:'FM complessivo',en:'Overall FM',es:'FM global',fr:'FM global',pl:'FM łączny',pt:'FM total'}[lang]||'Overall FM';
+      body += `<div class="est-margin-detail">${blendLbl}: <strong>${blendPct}%</strong> · floor SW 69% · target 75% · ottimo 80%</div>`;
+    } else {
+      body += `<div class="est-margin-detail">floor 69% · target 75% · ottimo 80%</div>`;
+    }
+
     if (anyCostMissing) {
       body += `<div class="est-cost-notice"><i class="ti ti-info-circle" style="font-size:11px"></i> ${t().cost_missing_warn}</div>`;
     }
@@ -5681,6 +6106,12 @@ function buildResults() {
   buildWizard();
   const body = document.getElementById('results-body');
   document.getElementById('fin-notice-text').textContent = t().fin_notice;
+
+  // xFarm FREE is always included — auto-add to estimate
+  if (!selectedProducts.has('free')) {
+    selectedProducts.add('free');
+    buildEstimator();
+  }
 
   if (seg === 'dealer') {
     body.innerHTML = buildDealerSection();
@@ -5718,18 +6149,49 @@ function buildResults() {
       <div class="pgrid">`;
 
     products.forEach(p => {
-      html += buildCard(p);
+      try { html += buildCard(p); }
+      catch(e) { html += `<div style="color:red;font-size:11px;padding:4px;border:1px solid red;border-radius:4px;margin:2px">ERR ${p.pk}: ${e.message}</div>`; console.error('buildCard error',p.pk,e); }
     });
 
     html += `</div></div>`;
   });
 
-  // Estimator placeholder - filled by buildEstimator()
-  html += `<div class="estimator" id="estimator-block"><div class="est-empty"><i class="ti ti-info-circle" style="font-size:16px;color:var(--gy)"></i> ${t().est_empty}</div></div>`;
-
   body.innerHTML = html;
   buildEstimator();
   filterDSSBycrops();
+
+  // Populate Step 6 — Accessories & Services (grouped)
+  const accBody = document.getElementById('acc-products-body');
+  const accStepCard = document.getElementById('acc-step-card');
+  if (accBody) {
+    let accHtml = '';
+    let hasContent = false;
+    // Render each named group
+    ACC_GROUPS.forEach(grp => {
+      const products = grp.pks
+        .map(pk => PRODUCTS.find(p => p.pk === pk))
+        .filter(p => p && p.segments.includes(seg));
+      if (!products.length) return;
+      const grpLabel = grp.label[lang] || grp.label.it;
+      accHtml += `<div class="acc-group-hdr">${grpLabel}</div><div class="pgrid">`;
+      products.forEach(p => { accHtml += buildCard(p); });
+      accHtml += `</div>`;
+      hasContent = true;
+    });
+    // Services section
+    const svcProducts = PRODUCTS.filter(p => p.section === 'svc' && p.segments.includes(seg) && !p.hiddenFromGrid);
+    if (svcProducts.length) {
+      accHtml += `<div class="acc-group-hdr">${t().sec_svc || 'Servizi'}</div><div class="pgrid">`;
+      svcProducts.forEach(p => { accHtml += buildCard(p); });
+      accHtml += `</div>`;
+      hasContent = true;
+    }
+    accBody.innerHTML = accHtml;
+    if (accStepCard) accStepCard.style.display = hasContent ? '' : 'none';
+  }
+  // Update step 6 title with correct language
+  const accTitle = document.getElementById('acc-step-title');
+  if (accTitle) accTitle.textContent = t().sec_acc;
 }
 
 
@@ -5809,6 +6271,32 @@ function buildCard(p) {
     else if (p.price.annual) priceHtml += `<span class="pcard-price2"> + ${fmtEur(p.price.annual)}${t().yr}</span>`;
   } else if (p.price.type === 'hw_once') {
     priceHtml = `<span class="pcard-once">${fmtEur(p.price.once)} ${t().once}</span>`;
+  } else if (p.price.type === 'install_pkg') {
+    const sLbl = {it:'sensore',en:'sensor',es:'sensor',fr:'capteur',pl:'czujnik',pt:'sensor'}[lang]||'sensor';
+    priceHtml = `<span class="pcard-once">${fmtEur(p.price.base)} ${t().once}</span><span class="pcard-price2"> + ${fmtEur(p.price.perUnit)}/${sLbl}</span>`;
+  }
+  // Extra: xIdro SW tier info
+  if (p.swTiers) {
+    const qty = productQty[p.pk] || 1;
+    let swRate = p.swTiers[p.swTiers.length-1][1];
+    for (const [mq, r] of p.swTiers) { if (qty <= mq) { swRate = r; break; } }
+    const tierLabel = {it:'fascia',en:'tier',es:'tramo',fr:'tranche',pl:'poziom',pt:'nível'}[lang]||'tier';
+    const tierRows = p.swTiers.map(([mq,r],i) => {
+      const prev = i===0?1:(p.swTiers[i-1][0]+1);
+      const lbl = mq>=999999 ? `>${prev-1}` : (prev===mq?`${prev}`:`${prev}–${mq}`);
+      const active = qty>=prev && qty<=(mq<999999?mq:Infinity);
+      return `<span style="display:inline-block;padding:1px 5px;margin:1px;border-radius:3px;font-size:10px;${active?'background:#E8F5E9;font-weight:700;color:#2E7D32':'color:#78909C'}">`;
+    }).join('');
+    priceHtml += `<div style="margin:5px 0 3px;font-size:11px;color:#546E7A;background:#F5F5F5;border-radius:4px;padding:5px 7px;line-height:1.6">` +
+      `<div style="font-weight:600;margin-bottom:2px">${{it:'SW/anno (x controller)',en:'SW/year (per controller)',es:'SW/año (por controlador)',fr:'SW/an (par contrôleur)',pl:'SW/rok (na kontroler)',pt:'SW/ano (por controlador)'}[lang]||'SW/year'}</div>` +
+      p.swTiers.map(([mq,r],i) => {
+        const prev = i===0?1:(p.swTiers[i-1][0]+1);
+        const lbl = mq>=999999 ? `>${prev-1}` : (prev===mq?`${prev}`:`${prev}–${mq}`);
+        const active = qty>=(prev) && (mq>=999999?true:qty<=mq);
+        return `<span style="display:inline-block;margin:1px 3px 1px 0;padding:1px 6px;border-radius:10px;font-size:10px;${active?'background:#C8E6C9;color:#1B5E20;font-weight:700':'background:#ECEFF1;color:#607D8B'}">${lbl}: ${fmtEur(r)}</span>`;
+      }).join('') +
+      `<div style="margin-top:3px;font-size:10px;color:#BF360C">Max disc HW 15% · SW 35%</div>` +
+    `</div>`;
   }
 
   // Price review alert
@@ -5830,11 +6318,15 @@ function buildCard(p) {
 
   const isEntry = p.section === 'start';
   const inEst = selectedProducts.has(p.pk);
-  const hasPrice = ['flat','flat_only','hw','hw_once','free','per_trap'].includes(p.price.type);
-  const estBtn = hasPrice
-    ? `<button class="est-btn${inEst?' est-btn-active':''}" data-est-pk="${p.pk}" onclick="toggleProduct('${p.pk}')">${inEst ? t().remove_from_est : t().add_to_est}</button>`
-    : '';
-  const inlineCtrl = hasPrice ? buildInlineCtrl(p.pk, true) : '';
+  const hasPrice = ['flat','flat_only','hw','hw_once','free','per_trap','install_pkg'].includes(p.price.type);
+  const isFreeProduct = p.price.type === 'free';
+  const alreadyInclLbl = {it:'Già incluso',en:'Already included',es:'Ya incluido',fr:'Déjà inclus',pl:'Już zawarte',pt:'Já incluído'}[lang]||'Already included';
+  const estBtn = isFreeProduct
+    ? `<div class="already-incl"><i class="ti ti-check" style="font-size:15px"></i>${alreadyInclLbl}</div>`
+    : (hasPrice
+      ? `<button class="est-btn${inEst?' est-btn-active':''}" data-est-pk="${p.pk}" onclick="toggleProduct('${p.pk}')">${inEst ? t().remove_from_est : t().add_to_est}</button>`
+      : '');
+  const inlineCtrl = (hasPrice && !isFreeProduct) ? buildInlineCtrl(p.pk, true) : '';
   return `<div class="pcard${isEntry?' entry':''}" data-pk="${p.pk}">
     <div class="pcard-top">
       <span class="pcard-name">${name}</span>
@@ -6672,41 +7164,31 @@ function buildInlineCtrl(pk, showQty) {
       + '</div>';
   }
 
-  const d = inEst ? 'block' : 'none';
+  const d = inEst ? 'flex' : 'none';
   return '<div class="est-inline-ctrls" data-est-ctrls="' + pk + '" '
-    + 'style="display:' + d + ';margin-top:6px;border-radius:8px;border:1.5px solid #A5D6A7;overflow:hidden;box-shadow:0 1px 5px rgba(46,125,50,.10)">'
-
-    // ── Single compact row
-    + '<div style="display:flex;align-items:center;gap:0;background:#F4FAF4">'
-
-    // Left label
-    + '<div style="display:flex;align-items:center;gap:5px;padding:7px 12px;background:#2E7D32;flex-shrink:0">'
-    + '<i class="ti ti-tag" style="font-size:12px;color:rgba(255,255,255,.85)" aria-hidden="true"></i>'
-    + '<span style="font-size:10px;font-weight:700;letter-spacing:.5px;color:#fff;white-space:nowrap">' + lbl.header + '</span>'
-    + '</div>'
+    + 'style="display:' + d + ';align-items:center;gap:0;margin-top:6px;border-radius:8px;border:1.5px solid #A5D6A7;overflow:hidden;background:#F4FAF4;box-shadow:0 1px 5px rgba(46,125,50,.10)">'
 
     // QTÀ (only for non-wizard cards)
     + (showQty
-      ? '<div style="display:flex;align-items:center;gap:5px;padding:6px 12px;border-left:1px solid #C8E6C9">'
-        + '<span style="font-size:10px;font-weight:700;color:#5A7060;white-space:nowrap">' + lbl.qty + '</span>'
+      ? '<div style="display:flex;align-items:center;gap:6px;padding:7px 12px;flex:1;border-right:1px solid #C8E6C9">'
+        + '<span style="font-size:11px;font-weight:700;color:#2E7D32;white-space:nowrap">' + lbl.qty + '</span>'
         + '<input type="number" min="1" max="999" value="' + qty + '" data-ctrl-qty="' + pk + '" '
-        + 'style="width:46px;border:1.5px solid #C8E6C9;border-radius:6px;padding:3px 6px;font-size:13px;font-weight:700;color:#1B3A1D;text-align:center;outline:none;background:#fff" '
+        + 'style="width:54px;border:1.5px solid #A5D6A7;border-radius:6px;padding:4px 6px;font-size:14px;font-weight:700;color:#1B3A1D;text-align:center;outline:none;background:#fff" '
         + 'onchange="changeQtyDirect(\'' + pk + '\',this.value)" onclick="this.select()" '
-        + 'onfocus="this.style.borderColor=\'#2E7D32\'" onblur="this.style.borderColor=\'#C8E6C9\'">'
+        + 'onfocus="this.style.borderColor=\'#2E7D32\'" onblur="this.style.borderColor=\'#A5D6A7\'">'
         + '</div>'
       : '')
 
     // SCONTO
-    + '<div style="display:flex;align-items:center;gap:5px;padding:6px 14px;border-left:1px solid #C8E6C9">'
-    + '<span style="font-size:10px;font-weight:700;color:#5A7060;white-space:nowrap">' + lbl.disc + '</span>'
+    + '<div style="display:flex;align-items:center;gap:6px;padding:7px 12px;flex:1">'
+    + '<span style="font-size:11px;font-weight:700;color:#2E7D32;white-space:nowrap">' + lbl.disc + '</span>'
     + '<input type="number" min="0" max="99" step="1" value="' + disc + '" data-ctrl-disc="' + pk + '" '
-    + 'style="width:48px;border:1.5px solid #C8E6C9;border-radius:6px;padding:3px 6px;font-size:13px;font-weight:700;color:#1B3A1D;text-align:center;outline:none;background:#fff" '
+    + 'style="width:54px;border:1.5px solid #A5D6A7;border-radius:6px;padding:4px 6px;font-size:14px;font-weight:700;color:#1B3A1D;text-align:center;outline:none;background:#fff" '
     + 'onchange="changeDisc(\'' + pk + '\',this.value)" onclick="this.select()" '
-    + 'onfocus="this.style.borderColor=\'#2E7D32\'" onblur="this.style.borderColor=\'#C8E6C9\'">'
-    + '<span style="font-size:11px;font-weight:700;color:#7A9A7A">%</span>'
+    + 'onfocus="this.style.borderColor=\'#2E7D32\'" onblur="this.style.borderColor=\'#A5D6A7\'">'
+    + '<span style="font-size:12px;font-weight:700;color:#5A7060">%</span>'
     + '</div>'
 
-    + '</div>'
     + yrsSection
     + '</div>';
 }
@@ -6746,6 +7228,16 @@ function renderResult(rKey) {
 function toggleModsPanel(forceOpen) {
   const body = document.getElementById('mods-body');
   const chev = document.getElementById('mods-chevron');
+  if (!body) return;
+  const isOpen = body.style.display !== 'none';
+  const open = forceOpen !== undefined ? forceOpen : !isOpen;
+  body.style.display = open ? '' : 'none';
+  if (chev) chev.style.transform = open ? 'rotate(180deg)' : '';
+}
+
+function toggleAccPanel(forceOpen) {
+  const body = document.getElementById('acc-body');
+  const chev = document.getElementById('acc-chevron');
   if (!body) return;
   const isOpen = body.style.display !== 'none';
   const open = forceOpen !== undefined ? forceOpen : !isOpen;
@@ -6972,6 +7464,13 @@ function buildHwMeteo() {
         pt: '💡 Sugerido: <strong>' + sugQty2 + ' sensor' + (sugQty2===1?'':'es') + '</strong> para ' + ha + ' ha irrigados (1 por ~5 ha).<br><span style="color:var(--gy)">Depende da variabilidade do solo — verificar sempre com o cliente.</span>'
       }[lang] || '💡 Suggested: ' + sugQty2 + ' sensor(s)';
       html += renderHwQNum('meteo','soil_qty', qtyLbl2, effQty2, sensorHint2);
+      // Meteo station configuration (after soil questions)
+      html += renderHwQ('meteo','cfg', wq.m_cfg[0], wq.m_cfg[1], [
+        {val:'base',    label: wq.m_cfg_base},
+        {val:'leaf',    label: wq.m_cfg_leaf},
+        {val:'cam',     label: wq.m_cfg_cam},
+        {val:'leafcam', label: wq.m_cfg_leafcam}
+      ]);
     }
   }
   if (a.scope === 'clim') {
@@ -6981,10 +7480,11 @@ function buildHwMeteo() {
     ]);
     if (a.env === 'field') {
       html += renderHwQ('meteo','cfg', wq.m_cfg[0], wq.m_cfg[1], [
-        {val:'base',  label: wq.m_cfg_base},
-        {val:'leaf',  label: wq.m_cfg_leaf},
-        {val:'cam',   label: wq.m_cfg_cam},
-        {val:'entry', label: wq.m_cfg_entry}
+        {val:'base',    label: wq.m_cfg_base},
+        {val:'leaf',    label: wq.m_cfg_leaf},
+        {val:'cam',     label: wq.m_cfg_cam},
+        {val:'leafcam', label: wq.m_cfg_leafcam},
+        {val:'entry',   label: wq.m_cfg_entry}
       ]);
     }
   }
@@ -7005,9 +7505,10 @@ function meteoHwResult(a) {
     if (a.dss_type === 'difesa') {
       const upgLbl = {it:'✦ Upgrade opzionale',en:'✦ Optional upgrade',es:'✦ Upgrade opcional',fr:'✦ Upgrade optionnel',pl:'✦ Opcja upgrade',pt:'✦ Upgrade opcional'}[lang]||'✦ Optional upgrade';
       return renderHwBundle([
-        {pk:'xsense_xleaf', price:'€1.390 + ' + conn},
-        {pk:'agrometeo',    price:'€30' + t().yr},
-        {pk:'xsense_xcam',  price:upgLbl + ' — €1.090 + ' + conn}
+        {pk:'xsense_xleaf',     price:'€1.090 + ' + conn},
+        {pk:'xsense_xcam',      price:upgLbl + ' — €1.140 + ' + conn},
+        {pk:'xsense_xleaf_xcam',price:upgLbl + ' — €1.240 + ' + conn},
+        {pk:'agrometeo',        price:'€30' + t().yr}
       ], ({it:'⚠️ Hardware obbligatorio DSS Difesa: xSense V2 + xLeaf + Agrometeo',en:'⚠️ Mandatory hardware for DSS Disease: xSense V2 + xLeaf + Agroweather',es:'⚠️ Hardware obligatorio DSS Difesa: xSense V2 + xLeaf + Agrometeo',fr:'⚠️ Hardware obligatoire DSS Maladie: xSense V2 + xLeaf + Agrometeo',pl:'⚠️ Obowiązkowy hardware DSS Choroby: xSense V2 + xLeaf + Agrometeo',pt:'⚠️ Hardware obrigatório DSS Difesa: xSense V2 + xLeaf + Agrometeo'}[lang]||'⚠️ Mandatory hardware') + '<br><small style="color:var(--g)">' + swNote + '</small>');
     }
     if (a.dss_type === 'irrig') {
@@ -7029,36 +7530,54 @@ function meteoHwResult(a) {
                           pt: isFusion ? '⚠️ Hardware Fusion — xSense V2 + Agrometeo + xSoil Pro (+ satélite)' : '⚠️ Hardware para DSS Irrigação'}[lang]||'⚠️ Hardware')
                        + '<br><small style="color:var(--g)">' + swNote + '</small>';
       if (isFusion) {
-        // Soil sensor from wizard choices
-        const sGoal = a.soil_goal || 'vol';
-        const sLayers = a.soil_layers || 'single';
+        // Wait for all soil questions + meteo cfg before showing result
+        if (!a.soil_goal || !a.soil_layers) return null;
+        if (!a.cfg) return null;
+        const sGoal = a.soil_goal;
+        const sLayers = a.soil_layers;
         const sQty = parseInt(a.soil_qty) || 1;
         const sOpts = SOIL_OPTIONS[sGoal] || SOIL_OPTIONS.vol;
         const sSel = sOpts.find(o=>o.val===sLayers) || sOpts[0];
         const sUnit6 = parseFloat((sSel.price.replace('×N','').replace('€','').replace('.','').replace(',','.')));
         const sTotal6 = (!isNaN(sUnit6) && sQty > 1) ? ' = ' + fmtEur(sUnit6*sQty) + ' ' + t().once : '';
         const sPriceLabel = sQty > 1 ? sQty + ' × ' + sSel.price.replace('×N','') + sTotal6 : sSel.price + ' + €30' + t().yr + ' conn.';
-        const fusionLbl = ({it:'⚠️ Hardware Fusion — xSense V2 + Agrometeo + sensore suolo (+ satellite)',en:'⚠️ Fusion hardware — xSense V2 + Agroweather + soil sensor (+ satellite)',es:'⚠️ Hardware Fusion — xSense V2 + Agrometeo + sensor suelo (+ satélite)',fr:'⚠️ Hardware Fusion — xSense V2 + Agrometeo + capteur sol (+ satellite)',pl:'⚠️ Hardware Fusion — xSense V2 + Agrometeo + czujnik gleby (+ satelita)',pt:'⚠️ Hardware Fusion — xSense V2 + Agrometeo + sensor solo (+ satélite)'}[lang]||'⚠️ Fusion hardware')
+        const fusionLbl = ({it:'⚠️ Hardware Fusion — stazione meteo + Agrometeo + sensore suolo (+ satellite)',en:'⚠️ Fusion hardware — weather station + Agroweather + soil sensor (+ satellite)',es:'⚠️ Hardware Fusion — estación meteo + Agrometeo + sensor suelo (+ satélite)',fr:'⚠️ Hardware Fusion — station météo + Agrometeo + capteur sol (+ satellite)',pl:'⚠️ Hardware Fusion — stacja pogodowa + Agrometeo + czujnik gleby (+ satelita)',pt:'⚠️ Hardware Fusion — estação meteo + Agrometeo + sensor solo (+ satélite)'}[lang]||'⚠️ Fusion hardware')
           + '<br><small style="color:var(--g)">' + swNote + '</small>';
+        const fusionMeteoItems = (()=>{
+          if (a.cfg==='base')    return [{pk:'xsense_v2',          price:'€990 + '  + conn},{pk:'agrometeo',price:'€30'+t().yr}];
+          if (a.cfg==='leaf')    return [{pk:'xsense_xleaf',        price:'€1.090 + '+ conn},{pk:'agrometeo',price:'€30'+t().yr}];
+          if (a.cfg==='cam')     return [{pk:'xsense_xcam',         price:'€1.140 + '+ conn},{pk:'agrometeo',price:'€30'+t().yr}];
+          if (a.cfg==='leafcam') return [{pk:'xsense_xleaf_xcam',   price:'€1.240 + '+ conn},{pk:'agrometeo',price:'€30'+t().yr}];
+          return null;
+        })();
+        if (!fusionMeteoItems) return null;
         return renderHwBundle([
-          {pk:'xsense_v2',   price:'€990 + ' + conn},
-          {pk:'agrometeo',   price:'€30' + t().yr},
+          ...fusionMeteoItems,
           {pk:sSel.pk,       price:sPriceLabel, qty:sQty},
           {pk:'irrigazione', price:''}
         ], fusionLbl);
       } else {
-        // "Con sensori": same soil sensor choice
-        const sGoal2 = a.soil_goal || 'vol';
-        const sLayers2 = a.soil_layers || 'single';
+        // "Con sensori": same soil sensor choice + meteo cfg
+        if (!a.soil_goal || !a.soil_layers) return null;
+        if (!a.cfg) return null;
+        const sGoal2 = a.soil_goal;
+        const sLayers2 = a.soil_layers;
         const sQty2 = parseInt(a.soil_qty) || 1;
         const sOpts2 = SOIL_OPTIONS[sGoal2] || SOIL_OPTIONS.vol;
         const sSel2 = sOpts2.find(o=>o.val===sLayers2) || sOpts2[0];
         const sUnit6b = parseFloat((sSel2.price.replace('×N','').replace('€','').replace('.','').replace(',','.')));
         const sTotal6b = (!isNaN(sUnit6b) && sQty2 > 1) ? ' = ' + fmtEur(sUnit6b*sQty2) + ' ' + t().once : '';
         const sPriceLabel2 = sQty2 > 1 ? sQty2 + ' × ' + sSel2.price.replace('×N','') + sTotal6b : sSel2.price + ' + €30' + t().yr + ' conn.';
+        const sensMeteoItems = (()=>{
+          if (a.cfg==='base')    return [{pk:'xsense_v2',          price:'€990 + '  + conn},{pk:'agrometeo',price:'€30'+t().yr}];
+          if (a.cfg==='leaf')    return [{pk:'xsense_xleaf',        price:'€1.090 + '+ conn},{pk:'agrometeo',price:'€30'+t().yr}];
+          if (a.cfg==='cam')     return [{pk:'xsense_xcam',         price:'€1.140 + '+ conn},{pk:'agrometeo',price:'€30'+t().yr}];
+          if (a.cfg==='leafcam') return [{pk:'xsense_xleaf_xcam',   price:'€1.240 + '+ conn},{pk:'agrometeo',price:'€30'+t().yr}];
+          return null;
+        })();
+        if (!sensMeteoItems) return null;
         return renderHwBundle([
-          {pk:'xsense_v2',  price:'€990 + ' + conn},
-          {pk:'agrometeo',  price:'€30' + t().yr},
+          ...sensMeteoItems,
           {pk:sSel2.pk,     price:sPriceLabel2, qty:sQty2}
         ], irrigNote);
       }
@@ -7070,9 +7589,10 @@ function meteoHwResult(a) {
     if (a.env === 'field') {
       if (!a.cfg) return null;
       if (a.cfg === 'base')  return renderHwBundle([{pk:'xsense_v2', price:'€990 + ' + conn},{pk:'agrometeo',price:'€30'+t().yr}], agr);
-      if (a.cfg === 'leaf')  return renderHwBundle([{pk:'xsense_xleaf', price:'€1.390 + ' + conn},{pk:'agrometeo',price:'€30'+t().yr}], agr);
-      if (a.cfg === 'cam')   return renderHwBundle([{pk:'xsense_xcam', price:''}], '');
-      if (a.cfg === 'entry') return renderHwBundle([{pk:'xair', price:'€220'}], '');
+      if (a.cfg === 'leaf')  return renderHwBundle([{pk:'xsense_xleaf', price:'€1.090 + ' + conn},{pk:'agrometeo',price:'€30'+t().yr}], agr);
+      if (a.cfg === 'cam')     return renderHwBundle([{pk:'xsense_xcam', price:''}], '');
+      if (a.cfg === 'leafcam') return renderHwBundle([{pk:'xsense_xleaf_xcam', price:'€1.240 + ' + conn},{pk:'agrometeo',price:'€30'+t().yr}], agr);
+      if (a.cfg === 'entry')   return renderHwBundle([{pk:'xair', price:'€220'}], '');
     }
   }
   return null;
@@ -7283,7 +7803,7 @@ function insectHwResult(a) {
 const SOIL_OPTIONS = {
   vol:  [{val:'single',    pk:'xsoil_pro',      price:'€480',   label:{it:'1 profondità → xSoil Pro',en:'1 depth → xSoil Pro',es:'1 profundidad → xSoil Pro',fr:'1 profondeur → xSoil Pro',pl:'1 głębokość → xSoil Pro',pt:'1 profundidade → xSoil Pro'}},
          {val:'duo',       pk:'xsoil_pro_duo',  price:'€780',   label:{it:'2 profondità → xSoil Pro Duo',en:'2 depths → xSoil Pro Duo',es:'2 profundidades → xSoil Pro Duo',fr:'2 profondeurs → xSoil Pro Duo',pl:'2 głębokości → xSoil Pro Duo',pt:'2 profundidades → xSoil Pro Duo'}},
-         {val:'multi_30',  pk:'xmultilevel_30', price:'€800',   label:{it:'3 prof. 0-30 cm → xMultilevel',en:'3 depths 0-30 cm → xMultilevel',es:'3 prof. 0-30 cm → xMultilevel',fr:'3 prof. 0-30 cm → xMultilevel',pl:'3 głęb. 0-30 cm → xMultilevel',pt:'3 prof. 0-30 cm → xMultilevel'}},
+         {val:'multi_30',  pk:'xmultilevel_30', price:'€880',   label:{it:'3 prof. 0-30 cm → xMultilevel',en:'3 depths 0-30 cm → xMultilevel',es:'3 prof. 0-30 cm → xMultilevel',fr:'3 prof. 0-30 cm → xMultilevel',pl:'3 głęb. 0-30 cm → xMultilevel',pt:'3 prof. 0-30 cm → xMultilevel'}},
          {val:'multi_60',  pk:'xmultilevel_60', price:'€1.200', label:{it:'6 prof. 0-60 cm → xMultilevel',en:'6 depths 0-60 cm → xMultilevel',es:'6 prof. 0-60 cm → xMultilevel',fr:'6 prof. 0-60 cm → xMultilevel',pl:'6 głęb. 0-60 cm → xMultilevel',pt:'6 prof. 0-60 cm → xMultilevel'}},
          {val:'multi_90',  pk:'xmultilevel_90', price:'€1.520', label:{it:'9 prof. 0-90 cm → xMultilevel',en:'9 depths 0-90 cm → xMultilevel',es:'9 prof. 0-90 cm → xMultilevel',fr:'9 prof. 0-90 cm → xMultilevel',pl:'9 głęb. 0-90 cm → xMultilevel',pt:'9 prof. 0-90 cm → xMultilevel'}}],
   multi:[{val:'single', pk:'xelectro',      price:'€650',   label:{it:'1 profondità → xElectro',en:'1 depth → xElectro',es:'1 profundidad → xElectro',fr:'1 profondeur → xElectro',pl:'1 głębokość → xElectro',pt:'1 profundidade → xElectro'}},
