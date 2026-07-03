@@ -856,6 +856,28 @@ function doLogin(){
       </div>
     </div>
 
+    <!-- Execution B2F — Step 7 (visible only when recurring SW selected) -->
+    <div class="step-card" id="exec-b2f-step-card" style="padding:0;overflow:hidden;margin-top:8px;display:none">
+      <div style="padding:12px 16px;background:#FBE9E7;border-bottom:1px solid #FFCCBC;display:flex;align-items:center;gap:8px">
+        <div class="step-num" style="background:#E65100">7</div>
+        <div class="step-hdr-title" style="flex:1;color:#BF360C" data-t="sec_exec_b2f">Execution B2F</div>
+      </div>
+      <div style="padding:14px 16px">
+        <!-- 15% highlight box -->
+        <div style="background:#FFF8E1;border:1px solid #FFE082;border-radius:8px;padding:10px 14px;margin-bottom:12px;display:flex;align-items:center;gap:14px">
+          <div style="font-size:30px;font-weight:900;color:#E65100;line-height:1;flex-shrink:0">15%</div>
+          <div>
+            <div style="font-size:13px;font-weight:700;color:#5D4037" data-t="ot_exec_b2f_rule">Prezzo = 15% dell'ARR ricorrente</div>
+            <div style="font-size:11px;color:#8D6E63;margin-top:3px" data-t="ot_exec_b2f_rule_note">Calcolato automaticamente sull'importo SW ricorrente in stima</div>
+          </div>
+        </div>
+        <!-- Description -->
+        <p style="margin:0 0 12px;font-size:12.5px;color:#555;line-height:1.6" data-t="ot_exec_b2f_desc">Supporto diretto xFarm per la gestione dell'implementazione del cliente. Un referente xFarm agisce come PM dedicato: coordina l'account, verifica che il setup sia corretto e monitora i KPI.</p>
+        <!-- Add to estimate button -->
+        <button class="est-btn" data-est-pk="exec_b2f" onclick="toggleProduct('exec_b2f')" style="width:100%;justify-content:center">+ Aggiungi a stima</button>
+      </div>
+    </div>
+
     <!-- Stima preventivo — always visible after Step 6 -->
     <div class="estimator" id="estimator-block" style="margin-top:16px"></div>
 
@@ -1640,6 +1662,43 @@ function doLogin(){
         </video>
       </div>
 
+      <!-- ── EXECUTION B2F ── -->
+      <div style="margin-top:14px;border:2px solid #FF8A65;border-radius:var(--r2);overflow:hidden">
+        <div style="background:#FBE9E7;padding:14px 16px;border-bottom:1px solid #FFCCBC;display:flex;align-items:center;gap:13px">
+          <div style="width:40px;height:40px;background:var(--or);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+            <i class="ti ti-briefcase" style="color:#fff;font-size:18px"></i>
+          </div>
+          <div>
+            <div style="font-size:18px;font-weight:900;color:#BF360C;letter-spacing:-.3px;line-height:1.1" data-t="ot_exec_b2f_title">Execution B2F</div>
+            <div style="font-size:11px;color:#E64A19;margin-top:4px;display:flex;align-items:center;gap:6px">
+              <span style="background:#FF5722;color:#fff;border-radius:4px;padding:2px 7px;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.6px" data-t="ot_exec_b2f_tag">PM Support</span>
+              <span style="font-weight:600" data-t="ot_exec_b2f_rule">Prezzo = 15% dell'ARR ricorrente</span>
+            </div>
+          </div>
+        </div>
+        <div style="padding:13px 15px;background:#fff">
+          <p style="margin:0 0 10px;font-size:12.5px;color:#333;line-height:1.6" data-t="ot_exec_b2f_desc">Supporto diretto xFarm per la gestione dell'implementazione del cliente. Un referente xFarm agisce come PM dedicato: coordina l'account, verifica che il setup sia corretto e monitora i KPI.</p>
+
+          <!-- Pricing rule highlight -->
+          <div style="background:#FFF8E1;border:1px solid #FFE082;border-radius:8px;padding:10px 13px;margin-bottom:12px;display:flex;align-items:center;gap:10px">
+            <div style="font-size:24px;font-weight:900;color:#E65100;line-height:1">15%</div>
+            <div>
+              <div style="font-size:13px;font-weight:700;color:#5D4037" data-t="ot_exec_b2f_rule">Prezzo = 15% dell'ARR ricorrente</div>
+              <div style="font-size:11px;color:#8D6E63;margin-top:2px" data-t="ot_exec_b2f_rule_note">Calcolato automaticamente sull'importo SW ricorrente in stima</div>
+            </div>
+          </div>
+
+          <!-- When to propose -->
+          <div style="font-size:11px;font-weight:700;color:var(--gy);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px" data-t="ot_exec_b2f_when">Quando proporlo</div>
+          <ul style="margin:0;padding-left:18px;font-size:12.5px;color:#333;line-height:1.7">
+            <li data-t="ot_exec_b2f_when1">Cliente enterprise o multi-sito con setup complesso</li>
+            <li data-t="ot_exec_b2f_when2">Distributore che richiede supporto diretto post-vendita</li>
+            <li data-t="ot_exec_b2f_when3">Progetto con integrazioni personalizzate o workflow critici</li>
+          </ul>
+          <div style="margin-top:10px;padding:7px 10px;background:#FBE9E7;border-radius:6px;font-size:11px;color:#BF360C" data-t="ot_exec_b2f_disc_note">Sconto non applicabile (prezzo fisso 15% ARR)</div>
+        </div>
+      </div>
+
     </div></div>
  </div>
 
@@ -1834,9 +1893,22 @@ it:{
   ],
   add_to_est:'+ Aggiungi a stima',
   remove_from_est:'✓ In stima',
+  pct_arr_sub:'del ricorrente',
+  pct_arr_nobase:'Aggiungere prima prodotti SW ricorrenti',
+  ot_exec_b2f_title:'Execution B2F',
+  ot_exec_b2f_tag:'PM Support',
+  ot_exec_b2f_desc:'Supporto diretto xFarm per la gestione dell\'implementazione del cliente. Un referente xFarm agisce come PM dedicato: coordina l\'account, verifica che il setup sia corretto e monitora i KPI.',
+  ot_exec_b2f_rule:'Prezzo = 15% dell\'ARR ricorrente',
+  ot_exec_b2f_rule_note:'Calcolato automaticamente sull\'importo SW ricorrente in stima',
+  ot_exec_b2f_when:'Quando proporlo',
+  ot_exec_b2f_when1:'Cliente enterprise o multi-sito con setup complesso',
+  ot_exec_b2f_when2:'Distributore che richiede supporto diretto post-vendita',
+  ot_exec_b2f_when3:'Progetto con integrazioni personalizzate o workflow critici',
+  ot_exec_b2f_disc_note:'Sconto non applicabile (prezzo fisso 15% ARR)',
   
   est_svc_total:'Accessori & Servizi (una tantum)',
   sec_acc:'Accessori & Servizi',
+  sec_exec_b2f:'7 · Execution B2F',
   sec_svc:'Servizi',
   est_hw_total:'Hardware (una tantum)',
   est_sw_total:'Software / servizi (annuale)',
@@ -2223,9 +2295,22 @@ en:{
   ],
   add_to_est:'+ Add to estimate',
   remove_from_est:'✓ In estimate',
+  pct_arr_sub:'of recurring',
+  pct_arr_nobase:'Add recurring SW products first',
+  ot_exec_b2f_title:'Execution B2F',
+  ot_exec_b2f_tag:'PM Support',
+  ot_exec_b2f_desc:'Direct xFarm support for customer implementation management. An xFarm contact acts as a dedicated PM: coordinates the account, verifies the setup is correct and monitors KPIs.',
+  ot_exec_b2f_rule:'Price = 15% of recurring ARR',
+  ot_exec_b2f_rule_note:'Automatically calculated on the recurring SW amount in the estimate',
+  ot_exec_b2f_when:'When to propose it',
+  ot_exec_b2f_when1:'Enterprise or multi-site customer with complex setup',
+  ot_exec_b2f_when2:'Distributor requesting direct post-sale support',
+  ot_exec_b2f_when3:'Project with custom integrations or critical workflows',
+  ot_exec_b2f_disc_note:'Discount not applicable (fixed price 15% ARR)',
   
   est_svc_total:'Accessories & Services (one-time)',
   sec_acc:'Accessories & Services',
+  sec_exec_b2f:'7 · Execution B2F',
   sec_svc:'Services',
   est_hw_total:'Hardware (one-time)',
   est_sw_total:'Software / services (annual)',
@@ -2612,9 +2697,22 @@ es:{
   ],
   add_to_est:'+ Añadir a estimación',
   remove_from_est:'✓ En estimación',
+  pct_arr_sub:'del recurrente',
+  pct_arr_nobase:'Añade primero productos SW recurrentes',
+  ot_exec_b2f_title:'Execution B2F',
+  ot_exec_b2f_tag:'PM Support',
+  ot_exec_b2f_desc:'Soporte directo xFarm para la gestión de implementación del cliente. Un referente xFarm actúa como PM dedicado: coordina la cuenta, verifica que el setup sea correcto y monitorea los KPIs.',
+  ot_exec_b2f_rule:'Precio = 15% del ARR recurrente',
+  ot_exec_b2f_rule_note:'Calculado automáticamente sobre el importe SW recurrente en la estimación',
+  ot_exec_b2f_when:'Cuándo proponerlo',
+  ot_exec_b2f_when1:'Cliente enterprise o multi-sede con setup complejo',
+  ot_exec_b2f_when2:'Distribuidor que solicita soporte directo post-venta',
+  ot_exec_b2f_when3:'Proyecto con integraciones personalizadas o flujos críticos',
+  ot_exec_b2f_disc_note:'Descuento no aplicable (precio fijo 15% ARR)',
   
   est_svc_total:'Accesorios & Servicios (única vez)',
   sec_acc:'Accesorios & Servicios',
+  sec_exec_b2f:'7 · Execution B2F',
   sec_svc:'Servicios',
   est_hw_total:'Hardware (única vez)',
   est_sw_total:'Software / servicios (anual)',
@@ -3050,9 +3148,22 @@ fr:{
   ],
   add_to_est:'+ Ajouter à l\'estimation',
   remove_from_est:'✓ Dans l\'estimation',
+  pct_arr_sub:'du récurrent',
+  pct_arr_nobase:'Ajoutez d’abord des produits SW récurrents',
+  ot_exec_b2f_title:'Execution B2F',
+  ot_exec_b2f_tag:'PM Support',
+  ot_exec_b2f_desc:'Support direct xFarm pour la gestion de l\'implémentation client. Un référent xFarm agit comme PM dédié : coordonne le compte, vérifie la configuration et suit les KPIs.',
+  ot_exec_b2f_rule:'Prix = 15 % de l\'ARR récurrent',
+  ot_exec_b2f_rule_note:'Calculé automatiquement sur le montant SW récurrent de l\'estimation',
+  ot_exec_b2f_when:'Quand le proposer',
+  ot_exec_b2f_when1:'Client enterprise ou multi-site avec configuration complexe',
+  ot_exec_b2f_when2:'Distributeur demandant un support direct après-vente',
+  ot_exec_b2f_when3:'Projet avec intégrations personnalisées ou flux critiques',
+  ot_exec_b2f_disc_note:'Remise non applicable (prix fixe 15 % ARR)',
   
   est_svc_total:'Accessoires & Services (unique)',
   sec_acc:'Accessoires & Services',
+  sec_exec_b2f:'7 · Execution B2F',
   sec_svc:'Services',
   est_hw_total:'Matériel (unique)',
   est_sw_total:'Logiciel / services (annuel)',
@@ -3439,9 +3550,22 @@ pl:{
   ],
   add_to_est:'+ Dodaj do wyceny',
   remove_from_est:'✓ W wycenie',
+  pct_arr_sub:'cyklicznego',
+  pct_arr_nobase:'Najpierw dodaj cykliczne produkty SW',
+  ot_exec_b2f_title:'Execution B2F',
+  ot_exec_b2f_tag:'PM Support',
+  ot_exec_b2f_desc:'Bezpośrednie wsparcie xFarm w zarządzaniu wdrożeniem klienta. Opiekun xFarm działa jako dedykowany PM: koordynuje konto, weryfikuje konfigurację i monitoruje KPI.',
+  ot_exec_b2f_rule:'Cena = 15% cyklicznego ARR',
+  ot_exec_b2f_rule_note:'Obliczane automatycznie na podstawie kwoty cyklicznej SW w wycenie',
+  ot_exec_b2f_when:'Kiedy proponować',
+  ot_exec_b2f_when1:'Klient enterprise lub multi-site ze złożoną konfiguracją',
+  ot_exec_b2f_when2:'Dystrybutor wymagający bezpośredniego wsparcia posprzedażowego',
+  ot_exec_b2f_when3:'Projekt z niestandardowymi integracjami lub krytycznymi przepływami',
+  ot_exec_b2f_disc_note:'Rabat nie dotyczy (stała cena 15% ARR)',
   
   est_svc_total:'Akcesoria & Usługi (jednorazowo)',
   sec_acc:'Akcesoria & Usługi',
+  sec_exec_b2f:'7 · Execution B2F',
   sec_svc:'Usługi',
   est_hw_total:'Sprzęt (jednorazowo)',
   est_sw_total:'Oprogramowanie / usługi (rocznie)',
@@ -3828,9 +3952,22 @@ pt:{
   ],
   add_to_est:'+ Adicionar à estimativa',
   remove_from_est:'✓ Na estimativa',
+  pct_arr_sub:'do recorrente',
+  pct_arr_nobase:'Adicione primeiro produtos SW recorrentes',
+  ot_exec_b2f_title:'Execution B2F',
+  ot_exec_b2f_tag:'PM Support',
+  ot_exec_b2f_desc:'Suporte direto xFarm para gestão da implementação do cliente. Um referente xFarm atua como PM dedicado: coordena a conta, verifica o setup e monitoriza os KPIs.',
+  ot_exec_b2f_rule:'Preço = 15% do ARR recorrente',
+  ot_exec_b2f_rule_note:'Calculado automaticamente sobre o montante SW recorrente na estimativa',
+  ot_exec_b2f_when:'Quando propor',
+  ot_exec_b2f_when1:'Cliente enterprise ou multi-sede com setup complexo',
+  ot_exec_b2f_when2:'Distribuidor que solicita suporte direto pós-venda',
+  ot_exec_b2f_when3:'Projeto com integrações personalizadas ou fluxos críticos',
+  ot_exec_b2f_disc_note:'Desconto não aplicável (preço fixo 15% ARR)',
   
   est_svc_total:'Acessórios & Serviços (única vez)',
   sec_acc:'Acessórios & Serviços',
+  sec_exec_b2f:'7 · Execution B2F',
   sec_svc:'Serviços',
   est_hw_total:'Hardware (única vez)',
   est_sw_total:'Software / serviços (anual)',
@@ -4046,6 +4183,13 @@ pt:{
     g_env_open:'Campos abertos (culturas extensivas)',
     g_env_orchard:'Pomar / Vinha / Terreno acidentado'
   },
+  hwwiz_title:'DSS e Sensores',
+  hwwiz_sub:'Selecione as categorias relevantes para o cliente',
+  hwcat_meteo:'🌤 Meteorologia',
+  hwcat_soil:'💧 Sensores irrigação',
+  hwcat_insect:'🪲 Insetos',
+  hwcat_irrig:'💧 Rega automatizada',
+  hwcat_fuel:'⛽ Combustível',
 hwq:{
     m_scope:['Para que serve a estação meteorológica?',''],
     m_scope_dss:'Hardware para DSS Doenças / Irrigação',
@@ -5143,6 +5287,12 @@ const PRODUCTS = [
     names:{it:'Training — Extra Hour',en:'Training — Extra Hour',es:'Training — Hora Extra',fr:'Training — Heure Supp.',pl:'Training — Godz. Dodatkowa',pt:'Training — Hora Extra'},
     descs:{it:'1 ora aggiuntiva · Aggiungibile a qualsiasi pacchetto in qualsiasi momento.',en:'1 hour add-on · Can be added to any package at any time.',es:'1 hora adicional · Se puede añadir a cualquier paquete en cualquier momento.',fr:'1 heure supplémentaire · Ajoutez à tout moment à n\'importe quel pack.',pl:'1 dodatkowa godzina · Można dodać do dowolnego pakietu w dowolnym momencie.',pt:'1 hora adicional · Pode ser adicionada a qualquer pacote a qualquer momento.'}
   }
+  ,{pk:'exec_b2f', dot:'#E65100', section:'svc', hiddenFromGrid:true,
+    segments:['small','medium','enterprise'], crops:[],
+    price:{type:'pct_arr'}, cost:0, maxDisc:0,
+    names:{it:'Execution B2F',en:'Execution B2F',es:'Execution B2F',fr:'Execution B2F',pl:'Execution B2F',pt:'Execution B2F'},
+    descs:{it:'Supporto diretto xFarm per la gestione dell\'implementazione: coordinamento account, verifica setup e KPI come PM dedicato. Prezzo: 15% dell\'ARR ricorrente.',en:'Direct xFarm support for implementation management: account coordination, setup verification and KPI tracking as a dedicated PM. Price: 15% of recurring ARR.',es:'Soporte directo xFarm para gestión de implementación: coordinación de cuenta, verificación de setup y KPIs como PM dedicado. Precio: 15% del ARR recurrente.',fr:'Support direct xFarm pour la gestion de l\'implémentation : coordination compte, vérification setup et KPIs comme PM dédié. Prix : 15 % de l\'ARR récurrent.',pl:'Bezpośrednie wsparcie xFarm w zarządzaniu wdrożeniem: koordynacja konta, weryfikacja konfiguracji i KPI jak dedykowany PM. Cena: 15% cyklicznego ARR.',pt:'Suporte direto xFarm para gestão da implementação: coordenação de conta, verificação de setup e KPIs como PM dedicado. Preço: 15% do ARR recorrente.'}
+  }
 
 
   /* ── NUOVI ADD-ON / ACCESSORI (Pricelist 2026) ── */
@@ -5743,6 +5893,27 @@ function toggleProductQty(pk, qty) {
   }
 }
 
+function updateExecB2fStep() {
+  // Show Step 7 only when at least one recurring SW product is selected
+  const hasRecurringSW = PRODUCTS.some(p =>
+    selectedProducts.has(p.pk) &&
+    ['flat','flat_only','step','irrig'].includes(p.price.type)
+  );
+  const card = document.getElementById('exec-b2f-step-card');
+  if (card) card.style.display = hasRecurringSW ? '' : 'none';
+  // Auto-remove exec_b2f if SW recurring goes away
+  if (!hasRecurringSW && selectedProducts.has('exec_b2f')) {
+    selectedProducts.delete('exec_b2f');
+    delete productQty['exec_b2f'];
+    delete productDisc['exec_b2f'];
+    buildEstimator();
+    document.querySelectorAll('[data-est-pk="exec_b2f"]').forEach(btn => {
+      btn.classList.remove('est-btn-active');
+      btn.textContent = t().add_to_est;
+    });
+  }
+}
+
 function toggleProduct(pk) {
   if (selectedProducts.has(pk)) {
     selectedProducts.delete(pk);
@@ -5786,6 +5957,7 @@ function toggleProduct(pk) {
       if (discInput) discInput.value = productDisc[p] || 0;
     }
   });
+  updateExecB2fStep();
 }
 
 function changeQtyDirect(pk, val) {
@@ -5841,6 +6013,8 @@ function buildEstimator() {
   let discViolations = [];
 
   PRODUCTS.forEach(p => {
+    // pct_arr (exec_b2f) is handled after the main loop — skip here
+    if (p.price.type === 'pct_arr') return;
     if (!selectedProducts.has(p.pk)) return;
     const qty  = productQty[p.pk] || 1;
     const name = p.names[lang] || p.names['en'] || p.pk;
@@ -5989,6 +6163,35 @@ function buildEstimator() {
     else if (isHw)  { hwRows  += row; }
     else            { swRows  += row; }
   });
+
+  // ── Execution B2F: 15% of recurring SW ARR (computed after main loop) ──
+  if (selectedProducts.has('exec_b2f')) {
+    const pExec = PRODUCTS.find(x => x.pk === 'exec_b2f');
+    if (pExec) {
+      const execBase = swListTotal; // 15% of list-price recurring SW
+      const execAmt  = execBase > 0 ? Math.round(execBase * 0.15 * 100) / 100 : 0;
+      const execName = pExec.names[lang] || 'Execution B2F';
+      const baseLabel = {it:'del ricorrente SW',en:'of SW recurring',es:'del recurrente SW',fr:'du r\u00e9current SW',pl:'od SW cyklicznego',pt:'do recorrente SW'}[lang]||'of SW recurring';
+      const nobaseWarn = t().pct_arr_nobase || 'Aggiungere prima prodotti SW ricorrenti';
+      const detailLine = execAmt > 0
+        ? `<div style="font-size:10px;color:#78909C;padding:2px 8px 4px">15% × ${fmtEur(execBase)} ${baseLabel}</div>`
+        : `<div style="font-size:10px;color:#F57F17;padding:2px 8px 4px">⚠ ${nobaseWarn}</div>`;
+      const execRow = `<div class="est-row-group">
+        <div class="est-row" style="flex-wrap:wrap;gap:2px">
+          <span style="flex:1;min-width:100px">${execName}</span>
+          <span style="display:flex;align-items:center;gap:4px">
+            <span class="est-amount" style="min-width:70px;text-align:right">${execAmt > 0 ? fmtEur(execAmt) : '—'}</span>
+            <button class="est-remove-btn" onclick="toggleProduct('exec_b2f')" title="Rimuovi">✕</button>
+          </span>
+        </div>
+        ${detailLine}
+      </div>`;
+      svcRows += execRow;
+      svcListTotal  += execAmt;
+      svcOfferTotal += execAmt;
+      // cost = 0 (service, variable — not tracked in margin calc)
+    }
+  }
 
   let body = `<div class="est-title"><i class="ti ti-calculator" style="color:var(--g)"></i>${t().est_title}</div>`;
 
@@ -6274,6 +6477,8 @@ function buildCard(p) {
   } else if (p.price.type === 'install_pkg') {
     const sLbl = {it:'sensore',en:'sensor',es:'sensor',fr:'capteur',pl:'czujnik',pt:'sensor'}[lang]||'sensor';
     priceHtml = `<span class="pcard-once">${fmtEur(p.price.base)} ${t().once}</span><span class="pcard-price2"> + ${fmtEur(p.price.perUnit)}/${sLbl}</span>`;
+  } else if (p.price.type === 'pct_arr') {
+    priceHtml = `<span class="pcard-price">15% ARR</span><span class="pcard-price2"> ${t().pct_arr_sub||'del ricorrente'}</span>`;
   }
   // Extra: xIdro SW tier info
   if (p.swTiers) {
@@ -6318,7 +6523,7 @@ function buildCard(p) {
 
   const isEntry = p.section === 'start';
   const inEst = selectedProducts.has(p.pk);
-  const hasPrice = ['flat','flat_only','hw','hw_once','free','per_trap','install_pkg'].includes(p.price.type);
+  const hasPrice = ['flat','flat_only','hw','hw_once','free','per_trap','install_pkg','pct_arr'].includes(p.price.type);
   const isFreeProduct = p.price.type === 'free';
   const alreadyInclLbl = {it:'Già incluso',en:'Already included',es:'Ya incluido',fr:'Déjà inclus',pl:'Już zawarte',pt:'Já incluído'}[lang]||'Already included';
   const estBtn = isFreeProduct
