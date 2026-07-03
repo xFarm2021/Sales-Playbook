@@ -874,7 +874,7 @@ function doLogin(){
         <!-- Description -->
         <p style="margin:0 0 12px;font-size:12.5px;color:#555;line-height:1.6" data-t="ot_exec_b2f_desc">Supporto diretto xFarm per la gestione dell'implementazione del cliente. Un referente xFarm agisce come PM dedicato: coordina l'account, verifica che il setup sia corretto e monitora i KPI.</p>
         <!-- Add to estimate button -->
-        <button class="est-btn" data-est-pk="exec_b2f" onclick="toggleProduct('exec_b2f')" style="width:100%;justify-content:center">+ Aggiungi a stima</button>
+        <button class="est-btn" data-est-pk="exec_b2f" data-t="add_to_est" onclick="toggleProduct('exec_b2f')" style="width:100%;justify-content:center">+ Aggiungi a stima</button>
       </div>
     </div>
 
@@ -941,6 +941,11 @@ function doLogin(){
         <i class="ti ti-rocket cvq-icon"></i>
         <div class="cvq-name" data-t="ot_cvq_exec_name">Execution</div>
         <div class="cvq-desc" data-t="ot_cvq_exec_desc">Post-sale activation &amp; delivery</div>
+      </button>
+      <button class="cvq-card" style="--cc:#2E7D32;--cl:#E8F5E9;--cb:#A5D6A7" onclick="accScroll('acc-api-pricing')">
+        <i class="ti ti-code cvq-icon"></i>
+        <div class="cvq-name">API Pricing</div>
+        <div class="cvq-desc" data-t="ot_cvq_api_desc">Consumer API · FMIS · Devices</div>
       </button>
       <button class="cvq-card" style="--cc:#1565C0;--cl:#E3F2FD;--cb:#90CAF9" onclick="accScroll('acc-risorse')">
         <i class="ti ti-books cvq-icon"></i>
@@ -1703,6 +1708,190 @@ function doLogin(){
  </div>
 
   <div style="height:8px"></div>
+  <!-- ── API PRICING ── -->
+  <div class="acc-section" style="display:none" id="acc-api-pricing">
+    <div class="acc-header" onclick="toggleAcc('acc-api-pricing')">
+      <div class="acc-title"><i class="ti ti-code" style="color:#2E7D32"></i><span style="color:#2E7D32">API Pricing</span></div>
+      <span class="acc-chevron"><i class="ti ti-chevron-down"></i></span>
+    </div>
+    <div class="acc-body"><div class="acc-body-inner">
+
+      <!-- Riga titolo -->
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:14px;flex-wrap:wrap">
+        <div>
+          <div style="font-size:16px;font-weight:800;color:#1B5E20;letter-spacing:-.2px" data-t="api_title">xFarm Consumer API — prezzi 2026</div>
+          <div style="font-size:11px;color:var(--gy);margin-top:2px" data-t="api_subtitle">Tutti i prezzi in EUR · licenza annuale</div>
+        </div>
+        <div style="background:#E8F5E9;border:1px solid #A5D6A7;border-radius:20px;padding:5px 12px;display:flex;align-items:center;gap:6px;white-space:nowrap">
+          <i class="ti ti-headset" style="color:#2E7D32;font-size:13px"></i>
+          <span style="font-size:11px;font-weight:700;color:#1B5E20" data-t="api_support_fee">+15% costo supporto tecnico su tutte le licenze</span>
+        </div>
+      </div>
+
+      <!-- Pillole moduli (solo i 2 inclusi) -->
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px">
+        <div style="background:#E8F5E9;border:1.5px solid #81C784;border-radius:8px;padding:8px 12px;min-width:150px">
+          <div style="font-size:11px;font-weight:800;color:#2E7D32;margin-bottom:2px">✓ Base FMIS</div>
+          <div style="font-size:10.5px;color:#555;line-height:1.4" data-t="api_fmis_desc">Campi, colture, attività, magazzino</div>
+        </div>
+        <div style="background:#E8F5E9;border:1.5px solid #81C784;border-radius:8px;padding:8px 12px;min-width:150px">
+          <div style="font-size:11px;font-weight:800;color:#2E7D32;margin-bottom:2px">✓ Device APIs</div>
+          <div style="font-size:10.5px;color:#555;line-height:1.4" data-t="api_device_desc">Sensori e integrazione con terze parti</div>
+        </div>
+      </div>
+
+      <!-- Layout a due colonne -->
+      <div style="display:flex;gap:14px;flex-wrap:wrap">
+
+        <!-- SINISTRA: tabella FMIS -->
+        <div style="flex:1.4;min-width:280px;border:1px solid var(--bd);border-radius:var(--r2);overflow:hidden">
+          <div style="padding:9px 13px;background:#F1F8E9;border-bottom:1px solid #C5E1A5">
+            <span style="font-size:10px;font-weight:800;color:#33691E;text-transform:uppercase;letter-spacing:.5px" data-t="api_fmis_label">📍 Prezzi FMIS</span>
+            <span style="font-size:10px;color:#558B2F;margin-left:6px" data-t="api_fmis_tier">per ettaro / anno · fasce cumulative</span>
+          </div>
+          <table style="width:100%;border-collapse:collapse;font-size:11.5px">
+            <thead>
+              <tr style="background:#FAFAFA;border-bottom:1px solid var(--bd)">
+                <th style="text-align:left;padding:6px 10px;font-weight:700;color:#333" data-t="api_col_ha">Ettari</th>
+                <th style="text-align:right;padding:6px 10px;font-weight:700;color:#2E7D32">B2F enterprise</th>
+                <th style="text-align:right;padding:6px 10px;font-weight:700;color:#1565C0" data-t="api_col_b2b">B2B / distributore</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom:1px solid #F5F5F5">
+                <td style="padding:6px 10px;color:#555">0 – 4.999 ha</td>
+                <td style="padding:6px 10px;text-align:right;font-weight:700;color:#2E7D32">€1/ha <span style="font-size:9.5px;font-weight:400;color:#888">(min €1.000)</span></td>
+                <td style="padding:6px 10px;text-align:right;font-weight:700;color:#1565C0">€1/ha <span style="font-size:9.5px;font-weight:400;color:#888">(min €1.000)</span></td>
+              </tr>
+              <tr style="border-bottom:1px solid #F5F5F5;background:#FAFFFE">
+                <td style="padding:6px 10px;color:#555">5.000 – 19.999 ha</td>
+                <td style="padding:6px 10px;text-align:right;font-weight:600;color:#388E3C">€0,70/ha</td>
+                <td style="padding:6px 10px;text-align:right;font-weight:600;color:#1976D2">€0,70/ha</td>
+              </tr>
+              <tr style="border-bottom:1px solid #F5F5F5">
+                <td style="padding:6px 10px;color:#555">20.000 – 49.999 ha</td>
+                <td style="padding:6px 10px;text-align:right;font-weight:600;color:#388E3C">€0,35/ha</td>
+                <td style="padding:6px 10px;text-align:right;font-weight:600;color:#1976D2">€0,35/ha</td>
+              </tr>
+              <tr style="border-bottom:1px solid #F5F5F5;background:#FAFFFE">
+                <td style="padding:6px 10px;color:#555">50.000 – 99.999 ha</td>
+                <td style="padding:6px 10px;text-align:right;font-weight:600;color:#388E3C">€0,18/ha</td>
+                <td style="padding:6px 10px;text-align:right;font-weight:600;color:#1976D2">€0,18/ha</td>
+              </tr>
+              <tr style="border-bottom:1px solid #F5F5F5">
+                <td style="padding:6px 10px;color:#555">100.000 – 499.999 ha</td>
+                <td style="padding:6px 10px;text-align:right;font-weight:600;color:#388E3C">€0,09/ha</td>
+                <td style="padding:6px 10px;text-align:right;font-weight:600;color:#1976D2">€0,09/ha</td>
+              </tr>
+              <tr style="border-bottom:1px solid #F5F5F5;background:#FAFFFE">
+                <td style="padding:6px 10px;color:#555">500.000 – 999.999 ha</td>
+                <td style="padding:6px 10px;text-align:right;font-weight:600;color:#388E3C">€0,05/ha</td>
+                <td style="padding:6px 10px;text-align:right;font-weight:600;color:#1976D2">€0,05/ha</td>
+              </tr>
+              <tr style="border-bottom:1px solid #F5F5F5">
+                <td style="padding:6px 10px;color:#555">1.000.000 – 3.999.999 ha</td>
+                <td style="padding:6px 10px;text-align:right;font-weight:600;color:#388E3C">€0,02/ha</td>
+                <td style="padding:6px 10px;text-align:right;font-weight:600;color:#1976D2">€0,02/ha</td>
+              </tr>
+              <tr>
+                <td style="padding:6px 10px;color:#555">4.000.000+ ha</td>
+                <td style="padding:6px 10px;text-align:right;font-weight:600;color:#388E3C">€0,01/ha</td>
+                <td style="padding:6px 10px;text-align:right;font-weight:600;color:#1976D2">€0,01/ha</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- DESTRA: tabella Device + Esempi -->
+        <div style="flex:1;min-width:220px;display:flex;flex-direction:column;gap:12px">
+
+          <!-- Tabella Device pricing -->
+          <div style="border:1px solid var(--bd);border-radius:var(--r2);overflow:hidden">
+            <div style="padding:9px 13px;background:#F1F8E9;border-bottom:1px solid #C5E1A5">
+              <span style="font-size:10px;font-weight:800;color:#33691E;text-transform:uppercase;letter-spacing:.5px" data-t="api_device_label">📡 Prezzi Device</span>
+              <span style="font-size:10px;color:#558B2F;margin-left:6px" data-t="api_device_tier">per sensore / anno</span>
+            </div>
+            <table style="width:100%;border-collapse:collapse;font-size:11.5px">
+              <thead>
+                <tr style="background:#FAFAFA;border-bottom:1px solid var(--bd)">
+                  <th style="text-align:left;padding:6px 10px;font-weight:700;color:#333" data-t="api_col_sensors">Sensori</th>
+                  <th style="text-align:right;padding:6px 10px;font-weight:700;color:#2E7D32" data-t="api_col_price">Prezzo</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style="border-bottom:1px solid #F5F5F5">
+                  <td style="padding:6px 10px;color:#555">1 – 20</td>
+                  <td style="padding:6px 10px;text-align:right;font-weight:700;color:#2E7D32">€1.000 <span data-t="api_flat">flat</span></td>
+                </tr>
+                <tr style="border-bottom:1px solid #F5F5F5;background:#FAFFFE">
+                  <td style="padding:6px 10px;color:#555">21 – 100</td>
+                  <td style="padding:6px 10px;text-align:right;font-weight:600;color:#388E3C">€45 / <span data-t="api_sensor_unit">sensore</span></td>
+                </tr>
+                <tr style="border-bottom:1px solid #F5F5F5">
+                  <td style="padding:6px 10px;color:#555">101 – 150</td>
+                  <td style="padding:6px 10px;text-align:right;font-weight:600;color:#388E3C">€40 / <span data-t="api_sensor_unit">sensore</span></td>
+                </tr>
+                <tr style="border-bottom:1px solid #F5F5F5;background:#FAFFFE">
+                  <td style="padding:6px 10px;color:#555">151 – 200</td>
+                  <td style="padding:6px 10px;text-align:right;font-weight:600;color:#388E3C">€35 / <span data-t="api_sensor_unit">sensore</span></td>
+                </tr>
+                <tr>
+                  <td style="padding:6px 10px;color:#555">201+</td>
+                  <td style="padding:6px 10px;text-align:right;font-weight:600;color:#388E3C">€30 / <span data-t="api_sensor_unit">sensore</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Esempi di prezzo -->
+          <div style="border:1px solid var(--bd);border-radius:var(--r2);overflow:hidden">
+            <div style="padding:9px 13px;background:#F5F5F5;border-bottom:1px solid var(--bd)">
+              <span style="font-size:10px;font-weight:800;color:#555;text-transform:uppercase;letter-spacing:.5px" data-t="api_examples_label">📋 Esempi di prezzo</span>
+            </div>
+            <div style="padding:10px 12px;display:flex;flex-direction:column;gap:6px">
+              <div style="font-size:9px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:#9E9E9E;margin-bottom:2px" data-t="api_sensor_only">Solo sensori</div>
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 10px;background:#F9FBE7;border-radius:6px">
+                <div>
+                  <div style="font-size:12px;font-weight:700;color:#333">Unituscia</div>
+                  <div style="font-size:10px;color:#9E9E9E">66 <span data-t="api_devices_unit">dispositivi</span></div>
+                </div>
+                <div style="font-size:14px;font-weight:800;color:#2E7D32">€3.070/<span data-t="api_yr_lbl">anno</span></div>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 10px;background:#F9FBE7;border-radius:6px">
+                <div>
+                  <div style="font-size:12px;font-weight:700;color:#333">Conserve Italia</div>
+                  <div style="font-size:10px;color:#9E9E9E">500 <span data-t="api_devices_unit">dispositivi</span></div>
+                </div>
+                <div style="font-size:14px;font-weight:800;color:#2E7D32">€17.200/<span data-t="api_yr_lbl">anno</span></div>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 10px;background:#F9FBE7;border-radius:6px">
+                <div>
+                  <div style="font-size:12px;font-weight:700;color:#333">INIAV</div>
+                  <div style="font-size:10px;color:#9E9E9E">350 <span data-t="api_devices_unit">dispositivi</span></div>
+                </div>
+                <div style="font-size:14px;font-weight:800;color:#2E7D32">€12.700/<span data-t="api_yr_lbl">anno</span></div>
+              </div>
+              <div style="font-size:9px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:#9E9E9E;margin:4px 0 2px" data-t="api_mixed_label">Misto (FMIS + Dispositivi)</div>
+              <div style="padding:8px 10px;background:#F1F8E9;border-radius:6px;border:1px solid #C8E6C9">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px">
+                  <div style="font-size:12px;font-weight:700;color:#333">GS Group</div>
+                  <div style="font-size:14px;font-weight:800;color:#2E7D32">€2.800/<span data-t="api_yr_lbl">anno</span></div>
+                </div>
+                <div style="display:flex;gap:6px;flex-wrap:wrap">
+                  <span style="background:#E8F5E9;border:1px solid #A5D6A7;border-radius:4px;padding:2px 7px;font-size:10px;color:#2E7D32">1.800 ha → €1.800</span>
+                  <span style="color:#9E9E9E;font-size:11px;display:flex;align-items:center">+</span>
+                  <span style="background:#E8F5E9;border:1px solid #A5D6A7;border-radius:4px;padding:2px 7px;font-size:10px;color:#2E7D32">10 <span data-t="api_sensors_unit">sensori</span> → €1.000</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div><!-- /due colonne -->
+
+    </div></div>
+  </div>
+  <div style="height:8px"></div>
   <!-- ── RISORSE & LISTINI ── -->
   <div class="acc-section" style="display:none" id="acc-risorse">
     <div class="acc-header" onclick="toggleAcc('acc-risorse')">
@@ -1956,6 +2145,28 @@ it:{
   ot_cvq_renewal_desc:'Processo rinnovo xSense/xTrap',
   ot_cvq_exec_name:'Execution',
   ot_cvq_exec_desc:'Attivazione e consegna post-vendita',
+  ot_cvq_api_desc:'Consumer API · FMIS · Devices',
+  api_title:'xFarm Consumer API — prezzi 2026',
+  api_subtitle:'Tutti i prezzi in EUR · licenza annuale',
+  api_support_fee:'+15% costo supporto tecnico su tutte le licenze',
+  api_fmis_desc:'Campi, colture, attività, magazzino',
+  api_device_desc:'Sensori e integrazione con terze parti',
+  api_fmis_label:'📍 Prezzi FMIS',
+  api_fmis_tier:'per ettaro / anno · fasce cumulative',
+  api_col_ha:'Ettari',
+  api_col_b2b:'B2B / distributore',
+  api_device_label:'📡 Prezzi Device',
+  api_device_tier:'per sensore / anno',
+  api_col_sensors:'Sensori',
+  api_col_price:'Prezzo',
+  api_flat:'flat',
+  api_sensor_unit:'sensore',
+  api_examples_label:'📋 Esempi di prezzo',
+  api_sensor_only:'Solo sensori',
+  api_devices_unit:'dispositivi',
+  api_mixed_label:'Misto (FMIS + Dispositivi)',
+  api_sensors_unit:'sensori',
+  api_yr_lbl:'anno',
   ot_cvq_risorse_name:'Risorse',
   ot_cvq_risorse_desc:'Listini, Customer Portal, Presentazioni',
   ot_acc_rules:'Key Rules & Cadence',
@@ -2358,6 +2569,28 @@ en:{
   ot_cvq_renewal_desc:'xSense/xTrap renewal process',
   ot_cvq_exec_name:'Execution',
   ot_cvq_exec_desc:'Post-sale activation & delivery',
+  ot_cvq_api_desc:'Consumer API · FMIS · Devices',
+  api_title:'xFarm Consumer API — pricing 2026',
+  api_subtitle:'All prices EUR · annual licence',
+  api_support_fee:'+15% technical support fee on all licences',
+  api_fmis_desc:'Fields, crops, activities, warehouse',
+  api_device_desc:'Sensors & third-party integration',
+  api_fmis_label:'📍 FMIS pricing',
+  api_fmis_tier:'per hectare / year · cumulative tiers',
+  api_col_ha:'Hectares',
+  api_col_b2b:'B2B / distributor',
+  api_device_label:'📡 Device pricing',
+  api_device_tier:'per sensor / year',
+  api_col_sensors:'Sensors',
+  api_col_price:'Price',
+  api_flat:'flat',
+  api_sensor_unit:'sensor',
+  api_examples_label:'📋 Pricing examples',
+  api_sensor_only:'Sensor only',
+  api_devices_unit:'devices',
+  api_mixed_label:'Mixed (FMIS + Devices)',
+  api_sensors_unit:'sensors',
+  api_yr_lbl:'yr',
   ot_cvq_risorse_name:'Resources',
   ot_cvq_risorse_desc:'Pricelists, Customer Portal, Presentations',
   ot_acc_rules:'Key Rules & Cadence',
@@ -2760,6 +2993,28 @@ es:{
   ot_cvq_renewal_desc:'Proceso renovación xSense/xTrap',
   ot_cvq_exec_name:'Ejecución',
   ot_cvq_exec_desc:'Activación y entrega post-venta',
+  ot_cvq_api_desc:'Consumer API · FMIS · Dispositivos',
+  api_title:'xFarm Consumer API — precios 2026',
+  api_subtitle:'Todos los precios en EUR · licencia anual',
+  api_support_fee:'+15% tarifa de soporte técnico en todas las licencias',
+  api_fmis_desc:'Campos, cultivos, actividades, almacén',
+  api_device_desc:'Sensores e integración con terceros',
+  api_fmis_label:'📍 Precios FMIS',
+  api_fmis_tier:'por hectárea / año · tramos acumulativos',
+  api_col_ha:'Hectáreas',
+  api_col_b2b:'B2B / distribuidor',
+  api_device_label:'📡 Precios Device',
+  api_device_tier:'por sensor / año',
+  api_col_sensors:'Sensores',
+  api_col_price:'Precio',
+  api_flat:'tarifa única',
+  api_sensor_unit:'sensor',
+  api_examples_label:'📋 Ejemplos de precio',
+  api_sensor_only:'Solo sensores',
+  api_devices_unit:'dispositivos',
+  api_mixed_label:'Mixto (FMIS + Dispositivos)',
+  api_sensors_unit:'sensores',
+  api_yr_lbl:'año',
   ot_cvq_risorse_name:'Recursos',
   ot_cvq_risorse_desc:'Precios, Portal Cliente, Presentaciones',
   ot_acc_rules:'Reglas Clave & Cadencia',
@@ -3211,6 +3466,28 @@ fr:{
   ot_cvq_renewal_desc:'Processus renouvellement xSense/xTrap',
   ot_cvq_exec_name:'Exécution',
   ot_cvq_exec_desc:'Activation & livraison post-vente',
+  ot_cvq_api_desc:'Consumer API · FMIS · Appareils',
+  api_title:'xFarm Consumer API — tarifs 2026',
+  api_subtitle:'Tous les prix en EUR · licence annuelle',
+  api_support_fee:'+15% frais de support technique sur toutes les licences',
+  api_fmis_desc:'Champs, cultures, activités, entrepôt',
+  api_device_desc:'Capteurs & intégration tierce partie',
+  api_fmis_label:'📍 Tarifs FMIS',
+  api_fmis_tier:'par hectare / an · tranches cumulatives',
+  api_col_ha:'Hectares',
+  api_col_b2b:'B2B / distributeur',
+  api_device_label:'📡 Tarifs Device',
+  api_device_tier:'par capteur / an',
+  api_col_sensors:'Capteurs',
+  api_col_price:'Prix',
+  api_flat:'forfait',
+  api_sensor_unit:'capteur',
+  api_examples_label:'📋 Exemples de tarifs',
+  api_sensor_only:'Capteurs seuls',
+  api_devices_unit:'appareils',
+  api_mixed_label:'Mixte (FMIS + Appareils)',
+  api_sensors_unit:'capteurs',
+  api_yr_lbl:'an',
   ot_cvq_risorse_name:'Ressources',
   ot_cvq_risorse_desc:'Tarifs, Portail Client, Présentations',
   ot_acc_rules:'Règles Clés & Cadence',
@@ -3613,6 +3890,28 @@ pl:{
   ot_cvq_renewal_desc:'Proces odnowienia xSense/xTrap',
   ot_cvq_exec_name:'Realizacja',
   ot_cvq_exec_desc:'Aktywacja i dostawa po sprzedaży',
+  ot_cvq_api_desc:'Consumer API · FMIS · Urządzenia',
+  api_title:'xFarm Consumer API — cennik 2026',
+  api_subtitle:'Wszystkie ceny w EUR · licencja roczna',
+  api_support_fee:'+15% opłata za wsparcie techniczne dla wszystkich licencji',
+  api_fmis_desc:'Pola, uprawy, działania, magazyn',
+  api_device_desc:'Czujniki i integracja z systemami zewnętrznymi',
+  api_fmis_label:'📍 Ceny FMIS',
+  api_fmis_tier:'na hektar / rok · progi skumulowane',
+  api_col_ha:'Hektary',
+  api_col_b2b:'B2B / dystrybutor',
+  api_device_label:'📡 Ceny Device',
+  api_device_tier:'na czujnik / rok',
+  api_col_sensors:'Czujniki',
+  api_col_price:'Cena',
+  api_flat:'ryczałt',
+  api_sensor_unit:'czujnik',
+  api_examples_label:'📋 Przykłady cen',
+  api_sensor_only:'Tylko czujniki',
+  api_devices_unit:'urządzenia',
+  api_mixed_label:'Mieszane (FMIS + Urządzenia)',
+  api_sensors_unit:'czujniki',
+  api_yr_lbl:'rok',
   ot_cvq_risorse_name:'Zasoby',
   ot_cvq_risorse_desc:'Cenniki, Portal Klienta, Prezentacje',
   ot_acc_rules:'Kluczowe Zasady & Kadencja',
@@ -4015,6 +4314,28 @@ pt:{
   ot_cvq_renewal_desc:'Processo renovação xSense/xTrap',
   ot_cvq_exec_name:'Execução',
   ot_cvq_exec_desc:'Ativação e entrega pós-venda',
+  ot_cvq_api_desc:'Consumer API · FMIS · Dispositivos',
+  api_title:'xFarm Consumer API — preços 2026',
+  api_subtitle:'Todos os preços em EUR · licença anual',
+  api_support_fee:'+15% taxa de suporte técnico em todas as licenças',
+  api_fmis_desc:'Campos, culturas, atividades, armazém',
+  api_device_desc:'Sensores e integração com terceiros',
+  api_fmis_label:'📍 Preços FMIS',
+  api_fmis_tier:'por hectare / ano · escalões cumulativos',
+  api_col_ha:'Hectares',
+  api_col_b2b:'B2B / distribuidor',
+  api_device_label:'📡 Preços Device',
+  api_device_tier:'por sensor / ano',
+  api_col_sensors:'Sensores',
+  api_col_price:'Preço',
+  api_flat:'fixo',
+  api_sensor_unit:'sensor',
+  api_examples_label:'📋 Exemplos de preços',
+  api_sensor_only:'Só sensores',
+  api_devices_unit:'dispositivos',
+  api_mixed_label:'Misto (FMIS + Dispositivos)',
+  api_sensors_unit:'sensores',
+  api_yr_lbl:'ano',
   ot_cvq_risorse_name:'Recursos',
   ot_cvq_risorse_desc:'Tabelas, Portal Cliente, Apresentações',
   ot_acc_rules:'Regras Chave & Cadência',
